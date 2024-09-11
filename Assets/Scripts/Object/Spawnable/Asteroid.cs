@@ -13,6 +13,8 @@ namespace Object.Spawnable {
                 asteroidManager.asteroidModels[Random.Range(0, asteroidManager.asteroidModels.Length)];
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
+            
+            Explode(transform.position, 2000F);
         }
 
         public void Explode(Vector3 colPosition, float colForce) {
