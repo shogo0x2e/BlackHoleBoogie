@@ -3,10 +3,12 @@ using Utils;
 
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
-        public float minMoveSpeed;
-        public float maxMoveSpeed;
-        public float minRotSpeed;
-        public float maxRotSpeed;
+        private const float defaultRotationSpeed = 42F;
+
+        [SerializeField] private float minMoveSpeed;
+        [SerializeField] private float maxMoveSpeed;
+        [SerializeField] private float minRotSpeed;
+        [SerializeField] private float maxRotSpeed;
 
         private float moveSpeed;
         private Vector3 targetPosition;
@@ -19,7 +21,7 @@ namespace Object {
 
             rotSpeed = maxRotSpeed != 0
                 ? Random.Range(minRotSpeed, maxRotSpeed)
-                : 42F;
+                : defaultRotationSpeed;
             rotDirection = Vector.GetRandomDirection();
 
             OnSpawn();
