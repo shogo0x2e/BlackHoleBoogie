@@ -17,8 +17,8 @@ namespace Object {
 
         private void SpawnRandomObject() {
             AbstractObject[] objects = spawnableManager.GetObjects();
-            AbstractObject rdObject = objects[Random.Range(0, objects.Length)];
-            Instantiate(rdObject, Vector.GetRandomPosition(xzRange, y, xzRange), Quaternion.identity);
+            AbstractObject randomObject = objects[Random.Range(0, objects.Length)];
+            Instantiate(randomObject, Vector.GetRandomPosition(xzRange, y, xzRange), Quaternion.identity);
         }
     }
 }
