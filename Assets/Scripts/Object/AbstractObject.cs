@@ -25,7 +25,7 @@ namespace Object {
             OnSpawn();
         }
 
-        protected virtual void OnSpawn() { }
+        public virtual void OnSpawn() { }
 
         public void Update() {
             float moveDelta = moveSpeed * Time.deltaTime;

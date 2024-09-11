@@ -8,16 +8,14 @@ namespace Object.Spawnable {
         private GameObject currentModel;
         private bool broken = false;
 
-        protected override void OnSpawn() {
+        public override void OnSpawn() {
             GameObject selectedModel =
                 asteroidManager.asteroidModels[Random.Range(0, asteroidManager.asteroidModels.Length)];
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
-
-            Explode();
         }
 
-        public void Explode() {
+        public void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
             }
@@ -31,11 +29,11 @@ namespace Object.Spawnable {
 
             Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rb in rbs) {
-                rb.AddExplosionForce(2000, transform.position, 10);
+                rb.AddExplosionForce(colForce, colPosition, 10);
             }
 
             broken = true;
-            SetMoveSpeed(0F);
+            SetMoveSpeed(0F); // TODO: Temporary Fix
         }
     }
 }
