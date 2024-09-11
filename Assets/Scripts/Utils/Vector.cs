@@ -3,11 +3,7 @@
 namespace Utils {
     public abstract class Vector {
         public static Vector3 GetRandomPosition(float dx, float dy, float dz) {
-            Vector3 randomPosition = Random.onUnitSphere;
-            randomPosition.x *= dx;
-            randomPosition.y *= dy;
-            randomPosition.z *= dz;
-            return randomPosition;
+            return Vector3.Scale(Random.onUnitSphere, new Vector3(dx, dy, dz));
         }
 
         public static Vector3 GetRandomDirection() {
