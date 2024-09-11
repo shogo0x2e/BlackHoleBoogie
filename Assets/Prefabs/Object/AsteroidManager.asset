@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidModels:
   - {fileID: 919132149155446097, guid: af2e04301cf8e5b448cbe5681ff83617, type: 3}
+  - {fileID: 919132149155446097, guid: 5bbf2c6e4a5241442aafa4075889d503, type: 3}
+  - {fileID: 919132149155446097, guid: 2fa4248a958e8fd498da5d872a0a18fc, type: 3}
+  - {fileID: 919132149155446097, guid: b894462c0c42af0489aa5bfc50a749a3, type: 3}
