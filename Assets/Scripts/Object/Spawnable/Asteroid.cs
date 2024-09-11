@@ -14,7 +14,7 @@ namespace Object.Spawnable {
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
 
-            // Explode();
+            Explode();
         }
 
         public void Explode() {
@@ -22,23 +22,20 @@ namespace Object.Spawnable {
                 return;
             }
 
-            GameObject repl = Instantiate(currentModel, transform.position, transform.rotation);
-
-            Transform[] trsfs = repl.GetComponentsInChildren<Transform>();
+            Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
             foreach (Transform trsf in trsfs) {
                 if (trsf.GetComponent<Rigidbody>() == null) {
                     trsf.gameObject.AddComponent<Rigidbody>();
                 }
             }
 
-            Rigidbody[] rbs = repl.GetComponentsInChildren<Rigidbody>();
+            Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rb in rbs) {
-                rb.AddExplosionForce(1000, transform.position, 2);
+                rb.AddExplosionForce(2000, transform.position, 10);
             }
 
             broken = true;
-
-            Destroy(this);
+            SetMoveSpeed(0F);
         }
     }
 }

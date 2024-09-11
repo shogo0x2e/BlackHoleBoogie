@@ -37,5 +37,9 @@ namespace Object {
                 rotDelta * rotDirection.y,
                 rotDelta * rotDirection.z);
         }
+
+        public void SetMoveSpeed(float value) {
+            moveSpeed = value;
+        }
     }
 }
