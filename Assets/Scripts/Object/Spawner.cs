@@ -4,7 +4,7 @@ using Utils;
 
 namespace Object {
     public class Spawner : MonoBehaviour {
-        public SpawnableManager spawnableManager;
+        [SerializeField] private SpawnableManager spawnableManager;
 
         private const float xzRange = 10F;
         private const float y = 0F;
@@ -16,7 +16,8 @@ namespace Object {
         }
 
         private void SpawnRandomObject() {
-            AbstractObject rdObject = spawnableManager.objects[Random.Range(0, spawnableManager.objects.Length)];
+            AbstractObject[] objects = spawnableManager.GetObjects();
+            AbstractObject rdObject = objects[Random.Range(0, objects.Length)];
             Instantiate(rdObject, Vector.GetRandomPosition(xzRange, y, xzRange), Quaternion.identity);
         }
     }
