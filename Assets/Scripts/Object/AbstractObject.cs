@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Object
 {
@@ -31,11 +33,14 @@ namespace Object
             OnSpawn();
         }
 
+        private void OnCollisionEnter(Collision other) {
+            moveSpeed = 0;
+        }
+
         public virtual void OnSpawn() { }
 
         public void Update() {
             float moveDelta = moveSpeed * Time.deltaTime;
-            moveSpeed = moveSpeed + 0.01F; // A bit of acceleration
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
             // Destroy object within BH
