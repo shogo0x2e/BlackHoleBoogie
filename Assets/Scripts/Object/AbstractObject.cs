@@ -4,6 +4,7 @@ using Utils;
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
         private const float defaultRotationSpeed = 42F;
+        private const double BH_radius = 2;
 
         [SerializeField] private float minMoveSpeed;
         [SerializeField] private float maxMoveSpeed;
@@ -23,16 +24,21 @@ namespace Object {
                 ? Random.Range(minRotSpeed, maxRotSpeed)
                 : defaultRotationSpeed;
             rotDirection = Vector.GetRandomDirection();
-
             OnSpawn();
         }
 
         public virtual void OnSpawn() { }
-
+         
         public void Update() {
             float moveDelta = moveSpeed * Time.deltaTime;
+            moveSpeed = moveSpeed + 0.01F; // A bit of acceleration
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
+            // Destroy object within BH
+            if(transform.position.magnitude < BH_radius){
+                Destroy(gameObject);
+                return;
+            }
 
             float rotDelta = rotSpeed * moveDelta; // Rotation speed depends on movement speed
             transform.Rotate(rotDelta * rotDirection.x,
@@ -42,6 +48,7 @@ namespace Object {
 
         public void SetMoveSpeed(float value) {
             moveSpeed = value;
-        }
+        } 
+
     }
 }
