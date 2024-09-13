@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Object.Spawnable {
     public class Asteroid : AbstractObject {
-        public AsteroidManager asteroidManager;
+        [SerializeField] private AsteroidManager asteroidManager;
 
         private GameObject currentModel;
         private bool broken = false;
 
         public override void OnSpawn() {
-            GameObject selectedModel =
-                asteroidManager.asteroidModels[Random.Range(0, asteroidManager.asteroidModels.Length)];
+            GameObject[] asteroidModels = asteroidManager.GetAsteroidModels();
+            GameObject selectedModel = asteroidModels[Random.Range(0, asteroidModels.Length)];
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
         }
