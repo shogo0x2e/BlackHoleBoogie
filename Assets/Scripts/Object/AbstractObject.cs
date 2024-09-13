@@ -48,6 +48,10 @@ namespace Object {
                 rotDelta * rotDirection.z);
         }
 
+        public void OnDestroy() {
+            LifeManager.lifeCount -= 1;
+        }
+
         public void SetMoveSpeed(float value) {
             moveSpeed = value;
         } 
