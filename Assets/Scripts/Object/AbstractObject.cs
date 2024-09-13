@@ -4,7 +4,7 @@ using Utils;
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
         private const float defaultRotationSpeed = 42F;
-        private const double BH_radius = 2;
+        private const double BH_radius = 4;
 
         [SerializeField] private float minMoveSpeed;
         [SerializeField] private float maxMoveSpeed;
@@ -36,7 +36,9 @@ namespace Object {
             transform.position += moveDelta * forwardVector;
             // Destroy object within BH
             if(transform.position.magnitude < BH_radius){
-                Destroy(gameObject);
+                float shrinkScale = 1 - 100*Time.deltaTime;
+                transform.localScale= new Vector3(shrinkScale,shrinkScale, shrinkScale);
+                Destroy(gameObject,  0.2F);
                 return;
             }
 
