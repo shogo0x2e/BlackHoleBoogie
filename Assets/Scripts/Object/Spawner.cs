@@ -14,7 +14,7 @@ namespace Object {
         }
         
         public void FixedUpdate() {
-            if (Random.Range(0F, 1F) < 0.02F) {
+            if (Random.Range(0F, 1F) < 0.01F) {
                 SpawnRandomObject();
             }
         }
