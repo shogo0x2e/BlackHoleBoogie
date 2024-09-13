@@ -101,6 +101,8 @@ MonoBehaviour:
   maxMoveSpeed: 0.8
   minRotSpeed: 0
   maxRotSpeed: 0
+  onDestroySound: {fileID: 3071280493169229862, guid: c24b546ab413d0146a737d649dc1e194,
+    type: 3}
 --- !u!1001 &7641633259471466380
 PrefabInstance:
   m_ObjectHideFlags: 0

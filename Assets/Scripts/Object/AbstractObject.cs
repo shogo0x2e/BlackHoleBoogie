@@ -12,7 +12,8 @@ namespace Object
         [SerializeField] private float maxMoveSpeed;
         [SerializeField] private float minRotSpeed;
         [SerializeField] private float maxRotSpeed;
-
+        [SerializeField] private AudioSource onDestroySound;
+        
         private float moveSpeed;
         private Vector3 targetPosition;
         private float rotSpeed;
@@ -32,15 +33,13 @@ namespace Object
 
         public virtual void OnSpawn() { }
 
-        public void Update()
-        {
+        public void Update() {
             float moveDelta = moveSpeed * Time.deltaTime;
             moveSpeed = moveSpeed + 0.01F; // A bit of acceleration
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
             // Destroy object within BH
-            if (transform.position.magnitude < BH_radius)
-            {
+            if (transform.position.magnitude < BH_radius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 Destroy(gameObject, 0.2F);
@@ -56,12 +55,13 @@ namespace Object
         public void OnDestroy()
         {
             LifeManager.lifeCount -= 1;
+            AudioSource onDestroySoundInstance = Instantiate(onDestroySound, transform.position, transform.rotation);
+            onDestroySoundInstance.Play();
         }
 
         public void SetMoveSpeed(float value)
         {
             moveSpeed = value;
         }
-
     }
 }

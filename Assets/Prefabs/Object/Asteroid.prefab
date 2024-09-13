@@ -99,3 +99,5 @@ MonoBehaviour:
   minRotSpeed: 0
   maxRotSpeed: 0
   asteroidManager: {fileID: 11400000, guid: 94441e23e3567e5488dc5535f6acc234, type: 2}
+  onDestroySound: {fileID: 3071280493169229862, guid: 60be9042b398b08488e76ea6b45727bd,
+    type: 3}
