@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using Utils;
 
-namespace Object {
-    public abstract class AbstractObject : MonoBehaviour {
+namespace Object
+{
+    public abstract class AbstractObject : MonoBehaviour
+    {
         private const float defaultRotationSpeed = 42F;
-        private const double BH_radius = 4;
+        private const double BH_radius = 1;
 
         [SerializeField] private float minMoveSpeed;
         [SerializeField] private float maxMoveSpeed;
@@ -16,7 +18,8 @@ namespace Object {
         private float rotSpeed;
         private Vector3 rotDirection;
 
-        public void Start() {
+        public void Start()
+        {
             moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
             targetPosition = Vector3.zero;
 
@@ -28,17 +31,19 @@ namespace Object {
         }
 
         public virtual void OnSpawn() { }
-         
-        public void Update() {
+
+        public void Update()
+        {
             float moveDelta = moveSpeed * Time.deltaTime;
             moveSpeed = moveSpeed + 0.01F; // A bit of acceleration
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
             // Destroy object within BH
-            if(transform.position.magnitude < BH_radius){
-                float shrinkScale = 1 - 100*Time.deltaTime;
-                transform.localScale= new Vector3(shrinkScale,shrinkScale, shrinkScale);
-                Destroy(gameObject,  0.2F);
+            if (transform.position.magnitude < BH_radius)
+            {
+                float shrinkScale = 1 - 100 * Time.deltaTime;
+                transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
+                Destroy(gameObject, 0.2F);
                 return;
             }
 
@@ -48,13 +53,15 @@ namespace Object {
                 rotDelta * rotDirection.z);
         }
 
-        public void OnDestroy() {
+        public void OnDestroy()
+        {
             LifeManager.lifeCount -= 1;
         }
 
-        public void SetMoveSpeed(float value) {
+        public void SetMoveSpeed(float value)
+        {
             moveSpeed = value;
-        } 
+        }
 
     }
 }
