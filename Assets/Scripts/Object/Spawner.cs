@@ -9,6 +9,10 @@ namespace Object {
         private const float xzRange = 10F;
         private const float y = 0F;
 
+        public void Start() {
+            LifeManager.lifeCount = 3;
+        }
+        
         public void FixedUpdate() {
             if (Random.Range(0F, 1F) < 0.02F) {
                 SpawnRandomObject();
