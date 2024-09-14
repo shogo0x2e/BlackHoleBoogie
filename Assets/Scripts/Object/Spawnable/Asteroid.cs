@@ -5,9 +5,11 @@ using Random = UnityEngine.Random;
 namespace Object.Spawnable {
     public class Asteroid : AbstractObject {
         [SerializeField] private AsteroidManager asteroidManager;
-
+        
         private GameObject currentModel;
         private bool broken = false;
+        
+        private const float explForceFactor = 80F;
 
         public override void OnSpawn() {
             GameObject[] asteroidModels = asteroidManager.GetAsteroidModels();
@@ -22,7 +24,7 @@ namespace Object.Spawnable {
             Vector3 colVelocity = collision.relativeVelocity;
             float colForce = colVelocity.magnitude * collision.rigidbody.mass;
             
-            Explode(colPosition, colForce * 100F);
+            Explode(colPosition, colForce);
         }
 
         private void Explode(Vector3 colPosition, float colForce) {
@@ -39,11 +41,13 @@ namespace Object.Spawnable {
 
             Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rb in rbs) {
-                rb.AddExplosionForce(colForce, colPosition, 10);
+                rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10);
             }
 
             broken = true;
             SetMoveSpeed(0F); // TODO: Temporary Fix
+            
+            Destroy(gameObject, 2F);
         }
     }
 }
