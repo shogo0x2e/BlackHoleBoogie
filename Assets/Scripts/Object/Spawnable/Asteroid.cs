@@ -19,6 +19,10 @@ namespace Object.Spawnable {
         }
 
         public void OnCollisionEnter(Collision collision) {
+            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+                return; // Do not explode when colliding with other space objects
+            }
+            
             ContactPoint contact = collision.contacts[0];
             Vector3 colPosition = contact.point;
             Vector3 colVelocity = collision.relativeVelocity;
