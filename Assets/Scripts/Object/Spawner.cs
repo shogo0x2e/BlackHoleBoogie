@@ -42,7 +42,7 @@ namespace Object {
             currentObjectCount++;
         }
 
-        public void OnObjectDestroyed() {
+        public void OnObjectGettingSucked() {
             currentObjectCount--;
         }
     }

@@ -1,15 +1,16 @@
 ﻿using Object.Manager;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using Utils;
 
 namespace Object.Spawnable {
     public class Asteroid : AbstractObject {
         [SerializeField] private AsteroidManager asteroidManager;
         
         private GameObject currentModel;
-        private bool broken = false;
-        
+
+        [SerializeField] private GameObject explParticles;
         private const float explForceFactor = 80F;
+        private bool broken = false;
 
         public override void OnSpawn() {
             GameObject[] asteroidModels = asteroidManager.GetAsteroidModels();
@@ -47,6 +48,8 @@ namespace Object.Spawnable {
             foreach (Rigidbody rb in rbs) {
                 rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10);
             }
+            
+            ParticleManager.PlayParticle(explParticles, transform.position);
 
             broken = true;
             SetMoveSpeed(0F); // TODO: Temporary Fix

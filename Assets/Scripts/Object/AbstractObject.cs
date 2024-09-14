@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
@@ -18,6 +19,8 @@ namespace Object {
         private float rotSpeed;
         private Vector3 rotDirection;
 
+        private bool sucked = false;
+        
         [SerializeField] private AudioSource onDestroySound;
 
         public void Start() {
@@ -47,7 +50,7 @@ namespace Object {
             if (mainMode && transform.position.magnitude < blackHoleRadius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
-                Destroy(gameObject, 0.2F);
+                GetSucked();
                 return;
             }
 
@@ -57,14 +60,22 @@ namespace Object {
                 rotDelta * rotDirection.z);
         }
 
-        public void OnDestroy() {
+        private void GetSucked() {
+            if (sucked) {
+                return;
+            }
+            
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            if (Spawner.GetInstance() != null) {
-                Spawner.GetInstance().OnObjectDestroyed();
+            if (mainMode) {
+                Spawner.GetInstance().OnObjectGettingSucked();
             }
 
             LifeManager.lifeCount--;
+
+            Destroy(gameObject, 0.2F);
+
+            sucked = true;
         }
 
         public void SetMoveSpeed(float value) {
