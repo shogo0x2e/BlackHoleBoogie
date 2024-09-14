@@ -1,5 +1,6 @@
 ﻿using Object.Manager;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Object.Spawnable {
@@ -8,6 +9,7 @@ namespace Object.Spawnable {
         
         private GameObject currentModel;
 
+        [SerializeField] private AudioSource explAudioSource;
         [SerializeField] private GameObject explParticles;
         private const float explForceFactor = 80F;
         private bool broken = false;
@@ -49,6 +51,7 @@ namespace Object.Spawnable {
                 rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10);
             }
             
+            AudioManager.PlayAudioSource(explAudioSource, transform);
             ParticleManager.PlayParticle(explParticles, transform.position);
 
             broken = true;

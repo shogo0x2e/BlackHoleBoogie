@@ -101,5 +101,7 @@ MonoBehaviour:
   onDestroySound: {fileID: 3071280493169229862, guid: 60be9042b398b08488e76ea6b45727bd,
     type: 3}
   asteroidManager: {fileID: 11400000, guid: 94441e23e3567e5488dc5535f6acc234, type: 2}
+  explAudioSource: {fileID: 6162041882781315353, guid: cc53f20482c8caf4699cc55eb183c4d7,
+    type: 3}
   explParticles: {fileID: 1725623878139941343, guid: 09872469c4b422144b91bcd8fd59fcf4,
     type: 3}
