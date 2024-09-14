@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4347301753039503257}
   - component: {fileID: 7006173634702060832}
   - component: {fileID: 8245427181829487478}
+  - component: {fileID: -1068060814893649512}
   m_Layer: 0
   m_Name: BlackHole
   m_TagString: Untagged
@@ -83,3 +84,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-1068060814893649512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3248142575889200056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03bdeca804559324baba9d2b5211f361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -15,6 +15,8 @@ namespace Object {
         private const float xzRange = 10F;
         private const float y = 1F;
 
+        private const float spawnRate = 0.01F;
+
         [SerializeField] private int maxObjectCount = 10;
         private int currentObjectCount = 0;
 
@@ -25,7 +27,7 @@ namespace Object {
         }
 
         public void FixedUpdate() {
-            if (currentObjectCount < maxObjectCount && Random.Range(0F, 1F) < 0.01F) {
+            if (currentObjectCount < maxObjectCount && Random.Range(0F, 1F) < spawnRate) {
                 SpawnRandomObject();
             }
         }

@@ -1,5 +1,4 @@
 ﻿using Object.Manager;
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,11 +16,16 @@ namespace Object.Spawnable {
             currentModel.transform.parent = transform;
         }
 
-        public void OnCollisionEnter(Collision other) {
-            Debug.Log("hello");
+        public void OnCollisionEnter(Collision collision) {
+            ContactPoint contact = collision.contacts[0];
+            Vector3 colPosition = contact.point;
+            Vector3 colVelocity = collision.relativeVelocity;
+            float colForce = colVelocity.magnitude * collision.rigidbody.mass;
+            
+            Explode(colPosition, colForce * 100F);
         }
 
-        public void Explode(Vector3 colPosition, float colForce) {
+        private void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
             }

@@ -6,6 +6,8 @@ namespace Object {
         private const float defaultRotationSpeed = 42F;
         private const double blackHoleRadius = 1;
 
+        private bool mainMode;
+        
         [SerializeField] private float minMoveSpeed;
         [SerializeField] private float maxMoveSpeed;
         private float moveSpeed;
@@ -17,10 +19,15 @@ namespace Object {
         private Vector3 rotDirection;
 
         [SerializeField] private AudioSource onDestroySound;
-
+        
         public void Start() {
+            mainMode = BlackHole.GetInstance() != null;
+            
+            targetPosition = mainMode
+                ? BlackHole.GetInstance().GetPosition()
+                : Vector3.zero;
+
             moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
-            targetPosition = BlackHole.GetInstance().GetPosition();
 
             rotSpeed = maxRotSpeed != 0
                 ? Random.Range(minRotSpeed, maxRotSpeed)
@@ -37,7 +44,7 @@ namespace Object {
             transform.position += moveDelta * forwardVector;
 
             // Destroy object within BH
-            if (transform.position.magnitude < blackHoleRadius) {
+            if (mainMode && transform.position.magnitude < blackHoleRadius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 Destroy(gameObject, 0.2F);
@@ -54,7 +61,9 @@ namespace Object {
             AudioSource onDestroySoundInstance = Instantiate(onDestroySound, transform.position, transform.rotation);
             onDestroySoundInstance.Play();
 
-            Spawner.GetInstance().OnObjectDestroyed();
+            if (Spawner.GetInstance() != null) {
+                Spawner.GetInstance().OnObjectDestroyed();
+            }
 
             LifeManager.lifeCount--;
         }
