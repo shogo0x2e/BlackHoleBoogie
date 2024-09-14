@@ -20,7 +20,13 @@ namespace Object
         private Vector3 targetPosition;
         private float rotSpeed;
         private Vector3 rotDirection;
+        // Reference to Spawner.cs
+        private Spawner spawner;
 
+
+        public void SetSpawner(Spawner spawnerInstance){
+            spawner = spawnerInstance;
+        }
         public void Start()
         {
             moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
@@ -62,6 +68,11 @@ namespace Object
             LifeManager.lifeCount -= 1;
             AudioSource onDestroySoundInstance = Instantiate(onDestroySound, transform.position, transform.rotation);
             onDestroySoundInstance.Play();
+
+            // Decreases the count for number of objects in scene in spawner class
+            if(spawner != null){
+                spawner.OnObjectDestroyed();
+            }
         }
 
         public void SetMoveSpeed(float value)
