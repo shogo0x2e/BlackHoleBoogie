@@ -53,7 +53,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.82
+  m_Radius: 0.41
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-3384709040025152300
 Rigidbody:
@@ -63,7 +63,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239784494264586847}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -94,10 +94,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be033a3997445ce822eb199ad904517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMoveSpeed: 1.2
-  maxMoveSpeed: 1.6
+  minMoveSpeed: 0.1
+  maxMoveSpeed: 0.12
   minRotSpeed: 0
   maxRotSpeed: 0
-  asteroidManager: {fileID: 11400000, guid: 94441e23e3567e5488dc5535f6acc234, type: 2}
   onDestroySound: {fileID: 3071280493169229862, guid: 60be9042b398b08488e76ea6b45727bd,
     type: 3}
+  asteroidManager: {fileID: 11400000, guid: 94441e23e3567e5488dc5535f6acc234, type: 2}

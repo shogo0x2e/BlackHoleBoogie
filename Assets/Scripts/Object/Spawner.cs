@@ -7,7 +7,7 @@ namespace Object {
         [SerializeField] private SpawnableManager spawnableManager;
 
         private const float xzRange = 10F;
-        private const float y = 0F;
+        private const float y = 1F;
         [SerializeField] private int maxObjectCount = 10;
         private int currentObjectCount = 0;
 
