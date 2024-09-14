@@ -4,7 +4,7 @@ using Utils;
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
         private const float defaultRotationSpeed = 42F;
-        private const float blackHoleRadius = 1.36F;
+        private const float blackHoleRadius = 1.26F;
 
         private bool mainMode;
         
