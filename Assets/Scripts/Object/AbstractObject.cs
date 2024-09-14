@@ -7,7 +7,7 @@ namespace Object {
         private const float blackHoleRadius = 1.26F;
 
         private bool mainMode;
-        
+
         [SerializeField] private float minMoveSpeed;
         [SerializeField] private float maxMoveSpeed;
         private float moveSpeed;
@@ -19,10 +19,10 @@ namespace Object {
         private Vector3 rotDirection;
 
         [SerializeField] private AudioSource onDestroySound;
-        
+
         public void Start() {
             mainMode = BlackHole.GetInstance() != null;
-            
+
             targetPosition = mainMode
                 ? BlackHole.GetInstance().GetPosition()
                 : Vector3.zero;
@@ -43,7 +43,7 @@ namespace Object {
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
 
-            // Destroy object within BH
+            // Destroy space objects within BH
             if (mainMode && transform.position.magnitude < blackHoleRadius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
@@ -58,8 +58,7 @@ namespace Object {
         }
 
         public void OnDestroy() {
-            AudioSource onDestroySoundInstance = Instantiate(onDestroySound, transform.position, transform.rotation);
-            onDestroySoundInstance.Play();
+            AudioManager.PlayAudioSource(onDestroySound, transform);
 
             if (Spawner.GetInstance() != null) {
                 Spawner.GetInstance().OnObjectDestroyed();
