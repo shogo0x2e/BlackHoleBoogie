@@ -1,36 +1,26 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Utils;
-using Random = UnityEngine.Random;
 
-namespace Object
-{
-    public abstract class AbstractObject : MonoBehaviour
-    {
+namespace Object {
+    public abstract class AbstractObject : MonoBehaviour {
         private const float defaultRotationSpeed = 42F;
-        private const double BH_radius = 1;
+        private const double blackHoleRadius = 1;
 
         [SerializeField] private float minMoveSpeed;
         [SerializeField] private float maxMoveSpeed;
-        [SerializeField] private float minRotSpeed;
-        [SerializeField] private float maxRotSpeed;
-        [SerializeField] private AudioSource onDestroySound;
-
         private float moveSpeed;
         private Vector3 targetPosition;
+
+        [SerializeField] private float minRotSpeed;
+        [SerializeField] private float maxRotSpeed;
         private float rotSpeed;
         private Vector3 rotDirection;
-        // Reference to Spawner.cs
-        private Spawner spawner;
 
+        [SerializeField] private AudioSource onDestroySound;
 
-        public void SetSpawner(Spawner spawnerInstance){
-            spawner = spawnerInstance;
-        }
-        public void Start()
-        {
+        public void Start() {
             moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
-            targetPosition = new Vector3(0, 1, 0);
+            targetPosition = BlackHole.GetInstance().GetPosition();
 
             rotSpeed = maxRotSpeed != 0
                 ? Random.Range(minRotSpeed, maxRotSpeed)
@@ -39,21 +29,15 @@ namespace Object
             OnSpawn();
         }
 
-        private void OnCollisionEnter(Collision other)
-        {
-            moveSpeed = 0;
-        }
-
         public virtual void OnSpawn() { }
 
-        public void Update()
-        {
+        public void Update() {
             float moveDelta = moveSpeed * Time.deltaTime;
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
+
             // Destroy object within BH
-            if (transform.position.magnitude < BH_radius)
-            {
+            if (transform.position.magnitude < blackHoleRadius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 Destroy(gameObject, 0.2F);
@@ -66,20 +50,16 @@ namespace Object
                 rotDelta * rotDirection.z);
         }
 
-        public void OnDestroy()
-        {
-            LifeManager.lifeCount -= 1;
+        public void OnDestroy() {
             AudioSource onDestroySoundInstance = Instantiate(onDestroySound, transform.position, transform.rotation);
             onDestroySoundInstance.Play();
 
-            // Decreases the count for number of objects in scene in spawner class
-            if(spawner != null){
-                spawner.OnObjectDestroyed();
-            }
+            Spawner.GetInstance().OnObjectDestroyed();
+
+            LifeManager.lifeCount--;
         }
 
-        public void SetMoveSpeed(float value)
-        {
+        public void SetMoveSpeed(float value) {
             moveSpeed = value;
         }
     }

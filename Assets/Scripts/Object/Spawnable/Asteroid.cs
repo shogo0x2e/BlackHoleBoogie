@@ -1,5 +1,7 @@
 ﻿using Object.Manager;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Object.Spawnable {
     public class Asteroid : AbstractObject {
@@ -13,6 +15,10 @@ namespace Object.Spawnable {
             GameObject selectedModel = asteroidModels[Random.Range(0, asteroidModels.Length)];
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
+        }
+
+        public void OnCollisionEnter(Collision other) {
+            Debug.Log("hello");
         }
 
         public void Explode(Vector3 colPosition, float colForce) {
