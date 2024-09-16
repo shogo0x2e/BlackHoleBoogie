@@ -26,18 +26,21 @@ namespace Object.Spawnable {
                 return; // Do not explode when colliding with other space objects
             }
             
+            
             ContactPoint contact = collision.contacts[0];
             Vector3 colPosition = contact.point;
             Vector3 colVelocity = collision.relativeVelocity;
             float colForce = colVelocity.magnitude * collision.rigidbody.mass;
             
-            Explode(colPosition, colForce);
+            Explode(colPosition, 8f);
         }
 
         private void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
             }
+
+            Debug.Log($"EXPLODE: {colForce}");
 
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
             foreach (Transform trsf in trsfs) {
