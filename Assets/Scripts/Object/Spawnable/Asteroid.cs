@@ -36,9 +36,7 @@ namespace Object.Spawnable
             Vector3 colVelocity = collision.relativeVelocity;
             float colForce = colVelocity.magnitude * collision.rigidbody.mass;
 
-            Explode(colPosition, colForce);
-
-            Explode(colPosition, 8f);
+            Explode(colPosition, 8F);
         }
 
         private void Explode(Vector3 colPosition, float colForce)
