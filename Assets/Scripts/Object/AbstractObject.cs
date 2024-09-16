@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -20,7 +21,7 @@ namespace Object {
         private Vector3 rotDirection;
 
         private bool sucked = false;
-        
+
         [SerializeField] private AudioSource onDestroySound;
 
         public void Start() {
@@ -64,7 +65,7 @@ namespace Object {
             if (sucked) {
                 return;
             }
-            
+
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
             if (mainMode) {
@@ -76,6 +77,15 @@ namespace Object {
             Destroy(gameObject, 0.2F);
 
             sucked = true;
+        }
+
+        public void OnCollisionEnter(Collision collision) {
+            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+                return;
+            }
+
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(6F, collision.contacts[0].point, 10);
         }
 
         public void SetMoveSpeed(float value) {
