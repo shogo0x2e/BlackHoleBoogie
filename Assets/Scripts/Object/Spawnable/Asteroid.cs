@@ -43,9 +43,12 @@ namespace Object.Spawnable {
 
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
             foreach (Transform trsf in trsfs) {
-                if (trsf.GetComponent<Rigidbody>() == null) {
-                    trsf.gameObject.AddComponent<Rigidbody>();
+                if (trsf.GetComponent<Rigidbody>() != null) {
+                    return;
                 }
+                
+                Rigidbody rb = trsf.gameObject.AddComponent<Rigidbody>();
+                rb.useGravity = false;
             }
 
             Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
