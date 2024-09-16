@@ -1,11 +1,17 @@
 ﻿using Object.Manager;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils;
 
 namespace Object.Spawnable {
     public class Asteroid : AbstractObject {
         [SerializeField] private AsteroidManager asteroidManager;
-
+        
         private GameObject currentModel;
+
+        [SerializeField] private AudioSource explAudioSource;
+        [SerializeField] private GameObject explParticles;
+        private const float explForceFactor = 80F;
         private bool broken = false;
 
         public override void OnSpawn() {
@@ -15,7 +21,20 @@ namespace Object.Spawnable {
             currentModel.transform.parent = transform;
         }
 
-        public void Explode(Vector3 colPosition, float colForce) {
+        public void OnCollisionEnter(Collision collision) {
+            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+                return; // Do not explode when colliding with other space objects
+            }
+            
+            ContactPoint contact = collision.contacts[0];
+            Vector3 colPosition = contact.point;
+            Vector3 colVelocity = collision.relativeVelocity;
+            float colForce = colVelocity.magnitude * collision.rigidbody.mass;
+            
+            Explode(colPosition, colForce);
+        }
+
+        private void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
             }
@@ -29,11 +48,16 @@ namespace Object.Spawnable {
 
             Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rb in rbs) {
-                rb.AddExplosionForce(colForce, colPosition, 10);
+                rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10);
             }
+            
+            AudioManager.PlayAudioSource(explAudioSource, transform);
+            ParticleManager.PlayParticle(explParticles, transform.position);
 
             broken = true;
             SetMoveSpeed(0F); // TODO: Temporary Fix
+            
+            Destroy(gameObject, 2F);
         }
     }
 }
