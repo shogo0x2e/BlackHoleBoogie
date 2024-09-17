@@ -3,8 +3,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Utils;
 
-namespace Object.Spawnable {
-    public class Asteroid : AbstractObject {
+namespace Object.Spawnable
+{
+    public class Asteroid : AbstractObject
+    {
         [SerializeField] private AsteroidManager asteroidManager;
 
         private GameObject currentModel;
@@ -14,15 +16,18 @@ namespace Object.Spawnable {
         private const float explForceFactor = 80F;
         private bool broken = false;
 
-        public override void OnSpawn() {
+        public override void OnSpawn()
+        {
             GameObject[] asteroidModels = asteroidManager.GetAsteroidModels();
             GameObject selectedModel = asteroidModels[Random.Range(0, asteroidModels.Length)];
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
         }
 
-        public new void OnCollisionEnter(Collision collision) {
-            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+        public new void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.GetComponent<AbstractObject>() != null)
+            {
                 return; // Do not explode when colliding with other space objects
             }
 
@@ -31,28 +36,33 @@ namespace Object.Spawnable {
             Vector3 colVelocity = collision.relativeVelocity;
             float colForce = colVelocity.magnitude * collision.rigidbody.mass;
 
-            Explode(colPosition, colForce);
+            Explode(colPosition, 8F);
         }
 
-        private void Explode(Vector3 colPosition, float colForce) {
-            if (broken) {
+        private void Explode(Vector3 colPosition, float colForce)
+        {
+            if (broken)
+            {
                 return;
             }
 
             ScoreManager.scoreCount++;
 
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
-            foreach (Transform trsf in trsfs) {
-                if (trsf.GetComponent<Rigidbody>() != null) {
+            foreach (Transform trsf in trsfs)
+            {
+                if (trsf.GetComponent<Rigidbody>() != null)
+                {
                     return;
                 }
-                
+
                 Rigidbody rb = trsf.gameObject.AddComponent<Rigidbody>();
                 rb.useGravity = false;
             }
 
             Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
-            foreach (Rigidbody rb in rbs) {
+            foreach (Rigidbody rb in rbs)
+            {
                 rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10);
             }
 

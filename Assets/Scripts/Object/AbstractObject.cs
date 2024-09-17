@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
         private const float defaultRotationSpeed = 42F;
-        private const float blackHoleRadius = 1.26F;
+        private const float blackHoleRadius = 0.8F;
 
         private bool mainMode;
 
@@ -48,7 +48,7 @@ namespace Object {
             transform.position += moveDelta * forwardVector;
 
             // Destroy space objects within BH
-            if (mainMode && transform.position.magnitude < blackHoleRadius) {
+            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 GetSucked();
@@ -68,16 +68,21 @@ namespace Object {
 
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            if (mainMode) {
-                Spawner.GetInstance().OnObjectGettingSucked();
-            }
-
             LifeManager.lifeCount--;
 
             Destroy(gameObject, 0.2F);
 
             sucked = true;
         }
+
+        public void OnDestroy()
+        {
+            if (mainMode)
+            {
+                Spawner.GetInstance().OnObjectGettingSucked();
+            }
+        }
+        
 
         public void OnCollisionEnter(Collision collision) {
             if (collision.gameObject.GetComponent<AbstractObject>() != null) {
@@ -86,6 +91,8 @@ namespace Object {
 
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
             rb.AddExplosionForce(6F, collision.contacts[0].point, 10);
+
+            Destroy(gameObject, 6F);
         }
 
         public void SetMoveSpeed(float value) {
