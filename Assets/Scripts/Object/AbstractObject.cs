@@ -68,7 +68,8 @@ namespace Object {
 
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            LifeManager.lifeCount--;
+            //If we implement lives again this is where we should do it
+            //LifeManager.lifeCount--;
 
             Destroy(gameObject, 0.2F);
 
@@ -91,6 +92,11 @@ namespace Object {
 
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
             rb.AddExplosionForce(6F, collision.contacts[0].point, 10);
+            if(TutorialManager.tutorialStep == 1)
+            {
+                TutorialManager.tutorialStringText = "";
+                TutorialManager.tutorialStep = 2;
+            }
 
             Destroy(gameObject, 6F);
         }

@@ -47,7 +47,12 @@ namespace Object.Spawnable
             }
 
             ScoreManager.scoreCount++;
-
+            if(TutorialManager.tutorialStep == 0)
+            {
+                TutorialManager.tutorialStringText = "Quest: Save an Astronaut!";
+                TutorialManager.tutorialStep = 1;
+            }
+            
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
             foreach (Transform trsf in trsfs)
             {
