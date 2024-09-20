@@ -15,7 +15,7 @@ namespace Object.Spawnable {
         private AudioSource audioSource; 
         void Start(){
 
-            audioSource = GetComponent<AudioSource>();
+            
         }
 
         void OnCollisionEnter(Collision collision) {
