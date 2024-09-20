@@ -11,8 +11,8 @@ public class Menu : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    public void QuitApp(){
+        Application.Quit();
+        Debug.Log("Application has quit.");
     }
 }
