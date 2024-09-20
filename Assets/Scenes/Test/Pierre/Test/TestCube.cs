@@ -12,4 +12,8 @@ public class TestCube : MonoBehaviour {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.AddForce(Vector3.right * 1000);
     }
+
+    public void OnPunch() {
+        Debug.Log("Punch Detected !");
+    }
 }
