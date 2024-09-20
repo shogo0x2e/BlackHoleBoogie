@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class HighscoreTable : MonoBehaviour
 {
     private Transform entryContainer;
     private Transform entryTemplate;
@@ -14,7 +14,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         entryTemplate.gameObject.SetActive(false);
 
-        float templateHeight = 20f; 
+        float templateHeight = 20; 
         for(int i = 0; i < 10; i++)
         {
             Transform entryTransform = Instantiate(entryTemplate, entryContainer);
