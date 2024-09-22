@@ -99,7 +99,7 @@ namespace Object {
 
             // Collision with the head
             if (colObjectParent.CompareTag("MainCamera")) {
-                float colForce = 10 * Head.GetInstance().GetVelocity();
+                float colForce = 16 * Head.GetInstance().GetVelocity();
                 OnHeadCollision(colPosition, colForce);
                 return;
             }

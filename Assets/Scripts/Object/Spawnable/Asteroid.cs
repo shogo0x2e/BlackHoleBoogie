@@ -44,6 +44,7 @@ namespace Object.Spawnable {
 
             ScoreManager.scoreCount++;
 
+            // TODO: Should add collider to childrens and make them stay in space
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
             foreach (Transform trsf in trsfs) {
                 if (trsf.GetComponent<Rigidbody>() != null) {

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using Utils;
 
 namespace Object.Spawnable {
     public class Astronaut : AbstractObject {
         [SerializeField] private AudioSource hitSound1;
         [SerializeField] private AudioSource hitSound2;
-        
-        private bool hitsound1played;
+        private bool soundAlternator;
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
@@ -13,6 +13,7 @@ namespace Object.Spawnable {
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+            PlayHitSound();
 
             Destroy(gameObject, 6F);
         }
@@ -23,25 +24,18 @@ namespace Object.Spawnable {
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+            PlayHitSound();
 
             Destroy(gameObject, 6F);
         }
 
-                void OnCollisionEnter(Collision collision) {
+        private void PlayHitSound() {
+            AudioSource hitSound = soundAlternator
+                ? hitSound1
+                : hitSound2;
+            AudioManager.PlayAudioSource(hitSound, transform);
 
-            if (collision.gameObject.GetComponent<AbstractObject>() != null)
-            {
-                return; // Do not explode when colliding with other space objects
-            }
-
-            if(!hitsound1played){
-                AudioManager.PlayAudioSource(hitSound1,transform);
-                
-            }
-            else {
-                AudioManager.PlayAudioSource(hitSound2,transform);
-            }
-            hitsound1played = !hitsound1played;
+            soundAlternator = !soundAlternator;
         }
     }
 }
