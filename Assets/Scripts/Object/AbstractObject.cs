@@ -99,7 +99,8 @@ namespace Object {
 
             // Collision with the head
             if (colObjectParent.CompareTag("MainCamera")) {
-                OnHeadCollision(colPosition);
+                float colForce = 10 * Head.GetInstance().GetVelocity();
+                OnHeadCollision(colPosition, colForce);
                 return;
             }
 
@@ -126,7 +127,7 @@ namespace Object {
             OnHandCollision(handData, colPosition);
         }
 
-        public abstract void OnHeadCollision(Vector3 colPosition);
+        public abstract void OnHeadCollision(Vector3 colPosition, float colForce);
 
         private void OnHandCollision(HandData handData, Vector3 colPosition) {
             float colForce = handData.GetVelocity();

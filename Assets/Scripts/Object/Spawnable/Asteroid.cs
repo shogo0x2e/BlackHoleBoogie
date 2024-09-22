@@ -20,9 +20,9 @@ namespace Object.Spawnable {
             currentModel.transform.parent = transform;
         }
 
-        public override void OnHeadCollision(Vector3 colPosition) {
+        public override void OnHeadCollision(Vector3 colPosition, float colForce) {
             // TODO: Maybe also do a camera effect because an asteroid just hurted the head
-            KnockBack(colPosition, 10F); // TODO: Fix colForce
+            KnockBack(colPosition, colForce);
         }
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
