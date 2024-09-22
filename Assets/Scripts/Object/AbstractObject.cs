@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -81,11 +80,12 @@ namespace Object {
             }
         }
 
-
         public void OnCollisionEnter(Collision collision) {
             if (collision.gameObject.GetComponent<AbstractObject>() != null) {
                 return;
             }
+
+            GameObject colObject = collision.gameObject;
 
             /*
              * Since collisions happen with fingers and not whole hands, and that
@@ -93,7 +93,7 @@ namespace Object {
              * check for the parent of the fingers which should eventually arrive
              * to the actual hand containing said fingers.
              */
-            Transform parent = collision.gameObject.transform;
+            Transform parent = colObject.transform;
             HandData handData = null;
             while (parent != null) {
                 if (parent.CompareTag("LeftHandTag")) {
@@ -111,13 +111,13 @@ namespace Object {
 
             ContactPoint contact = collision.contacts[0];
             Vector3 colPosition = contact.point;
-            Vector3 colVelocity = collision.relativeVelocity;
-            float colForce = colVelocity.magnitude * collision.rigidbody.mass;
 
-            OnHandCollision(handData, colPosition, colForce);
+            OnHandCollision(handData, colPosition);
         }
 
-        private void OnHandCollision(HandData handData, Vector3 colPosition, float colForce) {
+        private void OnHandCollision(HandData handData, Vector3 colPosition) {
+            float colForce = handData.GetVelocity();
+
             switch (handData.GetHandShape()) {
                 case HandData.HandShape.Open:
                     OnSlap(colPosition, colForce);

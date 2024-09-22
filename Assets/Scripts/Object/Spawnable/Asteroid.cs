@@ -23,7 +23,7 @@ namespace Object.Spawnable {
         public override void OnSlap(Vector3 colPosition, float colForce) { }
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
-            Explode(colPosition, colForce + 8F); // TODO: Fix 8F
+            Explode(colPosition, colForce);
         }
 
         private void Explode(Vector3 colPosition, float colForce) {
