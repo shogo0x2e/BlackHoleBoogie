@@ -55,7 +55,7 @@ namespace Object {
             if (isGrabbed) {
                 return;
             }
-            
+
             float moveDelta = moveSpeed * Time.deltaTime;
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
@@ -91,40 +91,49 @@ namespace Object {
                 return;
             }
 
+            ContactPoint contact = collision.contacts[0];
+            Vector3 colPosition = contact.point;
+
             GameObject colObject = collision.gameObject;
+            Transform colObjectParent = colObject.transform.parent;
+
+            // Collision with the head
+            if (colObjectParent.CompareTag("MainCamera")) {
+                OnHeadCollision(colPosition);
+                return;
+            }
 
             /*
              * Since collisions happen with fingers and not whole hands, and that
              * fingers are created at runtime (we can't assign tag to them), we
-             * check for the parent of the fingers which should eventually arrive
-             * to the actual hand containing said fingers.
+             * check for the parent of the fingers which represents the whole hand.
              */
-            Transform parent = colObject.transform;
             HandData handData = null;
-            while (parent != null) {
-                if (parent.CompareTag("LeftHandTag")) {
+            while (colObjectParent != null) {
+                if (colObjectParent.CompareTag("LeftHandTag")) {
                     handData = HandsManager.GetInstance().GetLeftHandData();
                     break;
                 }
 
-                if (parent.CompareTag("RightHandTag")) {
+                if (colObjectParent.CompareTag("RightHandTag")) {
                     handData = HandsManager.GetInstance().GetRightHandData();
                     break;
                 }
 
-                parent = parent.parent;
+                colObjectParent = colObjectParent.parent;
             }
-
-            ContactPoint contact = collision.contacts[0];
-            Vector3 colPosition = contact.point;
 
             OnHandCollision(handData, colPosition);
         }
+
+        public abstract void OnHeadCollision(Vector3 colPosition);
 
         private void OnHandCollision(HandData handData, Vector3 colPosition) {
             float colForce = handData.GetVelocity();
 
             switch (handData.GetHandShape()) {
+                case HandData.HandShape.Other:
+                    break;
                 case HandData.HandShape.Open:
                     OnSlap(colPosition, colForce);
                     break;
@@ -135,7 +144,6 @@ namespace Object {
                     OnPunch(colPosition, colForce);
                     break;
                 default:
-                    Debug.Log("Hand: No Shape Detected !");
                     break;
             }
         }

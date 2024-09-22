@@ -2,6 +2,10 @@
 
 namespace Object.Spawnable {
     public class Astronaut : AbstractObject {
+        public override void OnHeadCollision(Vector3 colPosition) {
+            KnockBack(colPosition, 10F); // TODO: Fix colForce
+        }
+
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
 
