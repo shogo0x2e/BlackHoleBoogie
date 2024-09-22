@@ -75,25 +75,65 @@ namespace Object {
             sucked = true;
         }
 
-        public void OnDestroy()
-        {
-            if (mainMode)
-            {
+        public void OnDestroy() {
+            if (mainMode) {
                 Spawner.GetInstance().OnObjectGettingSucked();
             }
         }
-        
+
 
         public void OnCollisionEnter(Collision collision) {
             if (collision.gameObject.GetComponent<AbstractObject>() != null) {
                 return;
             }
 
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(6F, collision.contacts[0].point, 10);
+            /*
+             * Since collisions happen with fingers and not whole hands, and that
+             * fingers are created at runtime (we can't assign tag to them), we
+             * check for the parent of the fingers which should eventually arrive
+             * to the actual hand containing said fingers.
+             */
+            Transform parent = collision.gameObject.transform;
+            HandData handData = null;
+            while (parent != null) {
+                if (parent.CompareTag("LeftHandTag")) {
+                    handData = HandsManager.GetInstance().GetLeftHandData();
+                    break;
+                }
 
-            Destroy(gameObject, 6F);
+                if (parent.CompareTag("RightHandTag")) {
+                    handData = HandsManager.GetInstance().GetRightHandData();
+                    break;
+                }
+
+                parent = parent.parent;
+            }
+
+            ContactPoint contact = collision.contacts[0];
+            Vector3 colPosition = contact.point;
+            Vector3 colVelocity = collision.relativeVelocity;
+            float colForce = colVelocity.magnitude * collision.rigidbody.mass;
+
+            OnHandCollision(handData, colPosition, colForce);
         }
+
+        private void OnHandCollision(HandData handData, Vector3 colPosition, float colForce) {
+            switch (handData.GetHandShape()) {
+                case HandData.HandShape.Open:
+                    OnSlap(colPosition, colForce);
+                    break;
+                case HandData.HandShape.Rock:
+                    OnPunch(colPosition, colForce);
+                    break;
+                default:
+                    Debug.Log("Hand: No Shape Detected !");
+                    break;
+            }
+        }
+
+        public abstract void OnSlap(Vector3 colPosition, float colForce);
+
+        public abstract void OnPunch(Vector3 colPosition, float colForce);
 
         public void SetMoveSpeed(float value) {
             moveSpeed = value;
