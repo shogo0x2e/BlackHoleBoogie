@@ -8,7 +8,9 @@ namespace Object.Spawnable {
             Destroy(gameObject, 6F);
         }
 
-        public override void OnGrab(Vector3 colPosition, float colForce) { }
+        public override bool IsGrabbable() {
+            return true;
+        }
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);

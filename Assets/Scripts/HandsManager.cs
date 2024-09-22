@@ -10,12 +10,23 @@ public class HandsManager : MonoBehaviour {
     [SerializeField] private HandData leftHandData;
     [SerializeField] private HandData rightHandData;
 
-    private readonly Color openColor = Color.white;
+    private readonly Color otherColor = Color.white;
+    private readonly Color openColor = Color.yellow;
     private readonly Color grabColor = Color.green;
     private readonly Color rockColor = Color.red;
 
     public void Start() {
         instance = this;
+    }
+
+    public void OnLeftOtherShape() {
+        // leftHandData.SetHandShape(HandData.HandShape.Other);
+        // leftHandData.SetHandMaterialColor(otherColor);
+    }
+
+    public void OnRightOtherShape() {
+        // rightHandData.SetHandShape(HandData.HandShape.Other);
+        // rightHandData.SetHandMaterialColor(otherColor);
     }
 
     public void OnLeftOpenShape() {
@@ -36,6 +47,14 @@ public class HandsManager : MonoBehaviour {
     public void OnRightGrabShape() {
         rightHandData.SetHandShape(HandData.HandShape.Grab);
         rightHandData.SetHandMaterialColor(grabColor);
+    }
+
+    public void OnNotLeftGrabShape() {
+        // leftHandData.ReleaseObject();
+    }
+
+    public void OnNotRightGrabShape() {
+        // rightHandData.ReleaseObject();
     }
 
     public void OnLeftRockShape() {

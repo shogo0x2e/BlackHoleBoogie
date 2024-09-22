@@ -23,6 +23,8 @@ namespace Object {
 
         [SerializeField] private AudioSource onDestroySound;
 
+        private bool isGrabbed = false;
+
         public void Start() {
             mainMode = BlackHole.GetInstance() != null;
 
@@ -42,10 +44,6 @@ namespace Object {
         public virtual void OnSpawn() { }
 
         public void Update() {
-            float moveDelta = moveSpeed * Time.deltaTime;
-            Vector3 forwardVector = (targetPosition - transform.position).normalized;
-            transform.position += moveDelta * forwardVector;
-
             // Destroy space objects within BH
             if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 float shrinkScale = 1 - 100 * Time.deltaTime;
@@ -53,6 +51,14 @@ namespace Object {
                 GetSucked();
                 return;
             }
+
+            if (isGrabbed) {
+                return;
+            }
+            
+            float moveDelta = moveSpeed * Time.deltaTime;
+            Vector3 forwardVector = (targetPosition - transform.position).normalized;
+            transform.position += moveDelta * forwardVector;
 
             float rotDelta = rotSpeed * moveDelta; // Rotation speed depends on movement speed
             transform.Rotate(rotDelta * rotDirection.x,
@@ -123,7 +129,7 @@ namespace Object {
                     OnSlap(colPosition, colForce);
                     break;
                 case HandData.HandShape.Grab:
-                    OnGrab(colPosition, colForce);
+                    OnGrab(handData);
                     break;
                 case HandData.HandShape.Rock:
                     OnPunch(colPosition, colForce);
@@ -136,7 +142,15 @@ namespace Object {
 
         public abstract void OnSlap(Vector3 colPosition, float colForce);
 
-        public abstract void OnGrab(Vector3 colPosition, float colForce);
+        private void OnGrab(HandData handData) {
+            if (!IsGrabbable()) {
+                return;
+            }
+
+            handData.GrabObject(this);
+        }
+
+        public abstract bool IsGrabbable();
 
         public abstract void OnPunch(Vector3 colPosition, float colForce);
 
@@ -147,6 +161,10 @@ namespace Object {
 
         public void SetMoveSpeed(float value) {
             moveSpeed = value;
+        }
+
+        public void SetIsGrabbed(bool value) {
+            isGrabbed = value;
         }
     }
 }

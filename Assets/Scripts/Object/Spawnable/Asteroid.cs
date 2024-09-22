@@ -24,7 +24,9 @@ namespace Object.Spawnable {
             KnockBack(colPosition, colForce);
         }
 
-        public override void OnGrab(Vector3 colPosition, float colForce) { }
+        public override bool IsGrabbable() {
+            return false;
+        }
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
             Explode(colPosition, colForce);
