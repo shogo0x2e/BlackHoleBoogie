@@ -122,6 +122,9 @@ namespace Object {
                 case HandData.HandShape.Open:
                     OnSlap(colPosition, colForce);
                     break;
+                case HandData.HandShape.Grab:
+                    OnGrab(colPosition, colForce);
+                    break;
                 case HandData.HandShape.Rock:
                     OnPunch(colPosition, colForce);
                     break;
@@ -133,7 +136,14 @@ namespace Object {
 
         public abstract void OnSlap(Vector3 colPosition, float colForce);
 
+        public abstract void OnGrab(Vector3 colPosition, float colForce);
+
         public abstract void OnPunch(Vector3 colPosition, float colForce);
+
+        public void KnockBack(Vector3 srcPosition, float srcForce) {
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(srcForce, srcPosition, 10F);
+        }
 
         public void SetMoveSpeed(float value) {
             moveSpeed = value;

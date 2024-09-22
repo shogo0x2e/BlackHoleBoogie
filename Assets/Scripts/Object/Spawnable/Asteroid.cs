@@ -21,9 +21,10 @@ namespace Object.Spawnable {
         }
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(colForce, colPosition, 10F);
+            KnockBack(colPosition, colForce);
         }
+
+        public override void OnGrab(Vector3 colPosition, float colForce) { }
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
             Explode(colPosition, colForce);

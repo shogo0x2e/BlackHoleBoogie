@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HandData : MonoBehaviour {
     private Vector3 previousPosition;
@@ -7,6 +6,7 @@ public class HandData : MonoBehaviour {
 
     public enum HandShape {
         Open,
+        Grab,
         Rock
     }
 
