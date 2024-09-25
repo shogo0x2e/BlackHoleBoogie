@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour
 {
     public Text tutorialText;
-    public static string tutorialStringText;
+    public static string tutorialStringText = "Quest: Punch an Asteroid!";
 
     public static int tutorialStep = 0;
 
