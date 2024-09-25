@@ -1,38 +1,41 @@
-﻿using Object.Manager;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 using Utils;
 
-
 namespace Object.Spawnable {
-    public class Astronaut : AbstractObject { 
-
+    public class Astronaut : AbstractObject {
         [SerializeField] private AudioSource hitSound1;
         [SerializeField] private AudioSource hitSound2;
-        
-        private bool hitsound1played;
-    
-        private AudioSource audioSource; 
-        void Start(){
+        private bool soundAlternator;
 
-            
+        public override void OnHeadCollision(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
         }
 
-        void OnCollisionEnter(Collision collision) {
+        public override void OnSlap(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
+            PlayHitSound();
 
-            if (collision.gameObject.GetComponent<AbstractObject>() != null)
-            {
-                return; // Do not explode when colliding with other space objects
-            }
-
-            if(!hitsound1played){
-                AudioManager.PlayAudioSource(hitSound1,transform);
-                
-            }
-            else {
-                AudioManager.PlayAudioSource(hitSound2,transform);
-            }
-            hitsound1played = !hitsound1played;
+            Destroy(gameObject, 6F);
         }
-     }
+
+        public override bool IsGrabbable() {
+            return true;
+        }
+
+        public override void OnPunch(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
+            PlayHitSound();
+
+            Destroy(gameObject, 6F);
+        }
+
+        private void PlayHitSound() {
+            AudioSource hitSound = soundAlternator
+                ? hitSound1
+                : hitSound2;
+            AudioManager.PlayAudioSource(hitSound, transform);
+
+            soundAlternator = !soundAlternator;
+        }
+    }
 }
