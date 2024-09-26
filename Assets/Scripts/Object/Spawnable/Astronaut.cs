@@ -9,13 +9,31 @@ namespace Object.Spawnable {
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+
+            if (IsDestroyed() || colForce < softestForce) {
+                return;
+            }
+
+            ScoreManager.scoreCount += 10;
+            SetDestroyed(true);
         }
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
-            PlayHitSound();
 
+            if (IsDestroyed() || colForce < softForce) {
+                return;
+            }
+
+            PlayHitSound();
+            ScoreManager.scoreCount += 100;
             Destroy(gameObject, 6F);
+            SetDestroyed(true);
+
+            if (TutorialManager.tutorialStep == 1) {
+                TutorialManager.tutorialStringText = "";
+                TutorialManager.tutorialStep = 2;
+            }
         }
 
         public override bool IsGrabbable() {
@@ -24,9 +42,20 @@ namespace Object.Spawnable {
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
-            PlayHitSound();
 
+            if (IsDestroyed() || colForce < softForce) {
+                return;
+            }
+
+            PlayHitSound();
+            ScoreManager.scoreCount += 40;
             Destroy(gameObject, 6F);
+            SetDestroyed(true);
+
+            if (TutorialManager.tutorialStep == 1) {
+                TutorialManager.tutorialStringText = "";
+                TutorialManager.tutorialStep = 2;
+            }
         }
 
         private void PlayHitSound() {

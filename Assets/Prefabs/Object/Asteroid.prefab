@@ -94,8 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be033a3997445ce822eb199ad904517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMoveSpeed: 0.6
-  maxMoveSpeed: 0.8
+  minMoveSpeed: 0.42
+  maxMoveSpeed: 0.6
   minRotSpeed: 0
   maxRotSpeed: 0
   onDestroySound: {fileID: 3071280493169229862, guid: 60be9042b398b08488e76ea6b45727bd,

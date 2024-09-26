@@ -15,20 +15,18 @@ namespace Object {
         private const float xzRange = 10F;
         private const float y = 1F;
 
-        private const float spawnRate = 0.01F;
+        private const float spawnRate = 0.008F;
 
         [SerializeField] private int maxObjectCount = 10;
         private int currentObjectCount = 0;
 
         public void Start() {
             instance = this;
-
-            //To be added if we add a life counter again in the future
-            //LifeManager.lifeCount = 3;
         }
 
         public void FixedUpdate() {
-            if (currentObjectCount < maxObjectCount && Random.Range(0F, 1F) < spawnRate) {
+            // if (currentObjectCount < maxObjectCount && Random.Range(0F, 1F) < spawnRate) {
+            if (Random.Range(0F, 1F) < spawnRate) {
                 SpawnRandomObject();
             }
         }

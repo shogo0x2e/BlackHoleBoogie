@@ -4,6 +4,12 @@ using Random = UnityEngine.Random;
 
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
+        public const float softestForce = 0.2F;
+        public const float softForce = 1.36F;
+        public const float midForce = 2F;
+        public const float hardForce = 3.0F;
+        public const float hardestForce = 4.2F;
+
         private const float defaultRotationSpeed = 42F;
         private const float blackHoleRadius = 0.666F;
 
@@ -19,15 +25,16 @@ namespace Object {
         private float rotSpeed;
         private Vector3 rotDirection;
 
-        private bool sucked = false;
-
         [SerializeField] private AudioSource onDestroySound;
+        private bool destroyed = false;
 
-        private bool isGrabbed = false;
+        private bool suckedIn = false;
 
         private float baseScale;
-        private const float shrinkTime = 1F;
+        private const float shrinkTime = 0.6F;
         private float shrinkTimeAcc = 0;
+
+        private bool isGrabbed = false;
 
         public void Start() {
             mainMode = BlackHole.GetInstance() != null;
@@ -44,7 +51,7 @@ namespace Object {
             rotDirection = Vector.GetRandomDirection();
 
             baseScale = transform.localScale.x;
-            
+
             OnSpawn();
         }
 
@@ -52,10 +59,9 @@ namespace Object {
 
         public void Update() {
             // Destroy space objects within BH
-            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius)
-            {
+            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 shrinkTimeAcc += Time.deltaTime;
-                float shrinkScale = baseScale * (shrinkTime - shrinkTimeAcc);
+                float shrinkScale = baseScale * (shrinkTime - shrinkTimeAcc) * (1F / shrinkTime);
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 GetSucked();
             }
@@ -75,18 +81,17 @@ namespace Object {
         }
 
         private void GetSucked() {
-            if (sucked) {
+            if (suckedIn) {
                 return;
             }
 
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            //If we implement lives again this is where we should do it
-            //LifeManager.lifeCount--;
+            ScoreManager.scoreCount -= 20;
 
             Destroy(gameObject, shrinkTime);
 
-            sucked = true;
+            suckedIn = true;
         }
 
         public void OnDestroy() {
@@ -100,12 +105,8 @@ namespace Object {
                 return;
             }
 
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(6F, collision.contacts[0].point, 10);
-            if(TutorialManager.tutorialStep == 1)
-            {
-                TutorialManager.tutorialStringText = "";
-                TutorialManager.tutorialStep = 2;
+            if (suckedIn) {
+                return;
             }
 
             GameObject colObject = collision.gameObject;
@@ -115,7 +116,7 @@ namespace Object {
 
             // Collision with the head
             if (colObjectParent.CompareTag("MainCamera")) {
-                float colForce = 16 * Head.GetInstance().GetVelocity();
+                float colForce = 12 * Head.GetInstance().GetVelocity() + 2;
                 OnHeadCollision(colPosition, colForce);
                 return;
             }
@@ -186,6 +187,14 @@ namespace Object {
 
         public void SetMoveSpeed(float value) {
             moveSpeed = value;
+        }
+
+        public void SetDestroyed(bool value) {
+            destroyed = value;
+        }
+
+        public bool IsDestroyed() {
+            return destroyed;
         }
 
         public void SetIsGrabbed(bool value) {
