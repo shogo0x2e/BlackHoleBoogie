@@ -109,11 +109,10 @@ namespace Object {
                 return;
             }
 
-            ContactPoint contact = collision.contacts[0];
-            Vector3 colPosition = contact.point;
-
             GameObject colObject = collision.gameObject;
             Transform colObjectParent = colObject.transform.parent;
+            ContactPoint contact = collision.contacts[0];
+            Vector3 colPosition = contact.point;
 
             // Collision with the head
             if (colObjectParent.CompareTag("MainCamera")) {

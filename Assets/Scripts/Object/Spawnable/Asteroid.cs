@@ -55,12 +55,18 @@ namespace Object.Spawnable {
             Explode(colPosition, colForce);
             ScoreManager.scoreCount += 200;
             SetDestroyed(true);
+            
+            if (TutorialManager.tutorialStep == 0)
+            {
+                TutorialManager.tutorialStringText = "Quest: Save an Astronaut!";
+                TutorialManager.tutorialStep = 1;
+            }
         }
 
         private void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
-            }
+            }            
 
             // TODO: Should add collider to childrens and make them stay in space
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
