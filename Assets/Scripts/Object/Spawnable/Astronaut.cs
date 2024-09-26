@@ -29,6 +29,11 @@ namespace Object.Spawnable {
             ScoreManager.scoreCount += 100;
             Destroy(gameObject, 6F);
             SetDestroyed(true);
+
+            if (TutorialManager.tutorialStep == 1) {
+                TutorialManager.tutorialStringText = "";
+                TutorialManager.tutorialStep = 2;
+            }
         }
 
         public override bool IsGrabbable() {
@@ -46,6 +51,11 @@ namespace Object.Spawnable {
             ScoreManager.scoreCount += 40;
             Destroy(gameObject, 6F);
             SetDestroyed(true);
+
+            if (TutorialManager.tutorialStep == 1) {
+                TutorialManager.tutorialStringText = "";
+                TutorialManager.tutorialStep = 2;
+            }
         }
 
         private void PlayHitSound() {

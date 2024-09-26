@@ -34,11 +34,11 @@ namespace Object.Spawnable {
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
-            
+
             if (IsDestroyed() || colForce < softForce) {
                 return;
             }
-            
+
             ScoreManager.scoreCount += 60;
             SetDestroyed(true);
         }
@@ -55,9 +55,8 @@ namespace Object.Spawnable {
             Explode(colPosition, colForce);
             ScoreManager.scoreCount += 200;
             SetDestroyed(true);
-            
-            if (TutorialManager.tutorialStep == 0)
-            {
+
+            if (TutorialManager.tutorialStep == 0) {
                 TutorialManager.tutorialStringText = "Quest: Save an Astronaut!";
                 TutorialManager.tutorialStep = 1;
             }
@@ -66,7 +65,7 @@ namespace Object.Spawnable {
         private void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
-            }            
+            }
 
             // TODO: Should add collider to childrens and make them stay in space
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
