@@ -35,14 +35,14 @@ namespace Object.Spawnable {
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
             Explode(colPosition, colForce);
+            
+            ScoreManager.scoreCount++;
         }
 
         private void Explode(Vector3 colPosition, float colForce) {
             if (broken) {
                 return;
             }
-
-            ScoreManager.scoreCount++;
 
             // TODO: Should add collider to childrens and make them stay in space
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
