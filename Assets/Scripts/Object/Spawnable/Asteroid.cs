@@ -22,10 +22,25 @@ namespace Object.Spawnable {
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+
+            if (IsDestroyed() || colForce < softestForce) {
+                return;
+            }
+
+            // Decrease score because it hurts to collide an Asteroid with your head :)
+            ScoreManager.scoreCount -= colForce * 2F;
+            SetDestroyed(true);
         }
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+            
+            if (IsDestroyed() || colForce < softForce) {
+                return;
+            }
+            
+            ScoreManager.scoreCount += colForce * 6F;
+            SetDestroyed(true);
         }
 
         public override bool IsGrabbable() {
@@ -33,11 +48,13 @@ namespace Object.Spawnable {
         }
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
-            if (colForce > softForce) {
-                Explode(colPosition, colForce);
-
-                ScoreManager.scoreCount++;
+            if (IsDestroyed() || colForce < softForce) {
+                return;
             }
+
+            Explode(colPosition, colForce);
+            ScoreManager.scoreCount += colForce * 20F;
+            SetDestroyed(true);
         }
 
         private void Explode(Vector3 colPosition, float colForce) {

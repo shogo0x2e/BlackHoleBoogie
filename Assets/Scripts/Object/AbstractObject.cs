@@ -25,15 +25,16 @@ namespace Object {
         private float rotSpeed;
         private Vector3 rotDirection;
 
-        private bool sucked = false;
-
         [SerializeField] private AudioSource onDestroySound;
+        private bool destroyed = false;
 
-        private bool isGrabbed = false;
+        private bool suckedIn = false;
 
         private float baseScale;
-        private const float shrinkTime = 1F;
+        private const float shrinkTime = 0.6F;
         private float shrinkTimeAcc = 0;
+
+        private bool isGrabbed = false;
 
         public void Start() {
             mainMode = BlackHole.GetInstance() != null;
@@ -60,7 +61,7 @@ namespace Object {
             // Destroy space objects within BH
             if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 shrinkTimeAcc += Time.deltaTime;
-                float shrinkScale = baseScale * (shrinkTime - shrinkTimeAcc);
+                float shrinkScale = baseScale * (shrinkTime - shrinkTimeAcc) * (1F / shrinkTime);
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 GetSucked();
             }
@@ -80,17 +81,17 @@ namespace Object {
         }
 
         private void GetSucked() {
-            if (sucked) {
+            if (suckedIn) {
                 return;
             }
 
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            LifeManager.lifeCount--;
+            ScoreManager.scoreCount -= 30F;
 
             Destroy(gameObject, shrinkTime);
 
-            sucked = true;
+            suckedIn = true;
         }
 
         public void OnDestroy() {
@@ -183,6 +184,14 @@ namespace Object {
 
         public void SetMoveSpeed(float value) {
             moveSpeed = value;
+        }
+
+        public void SetDestroyed(bool value) {
+            destroyed = value;
+        }
+
+        public bool IsDestroyed() {
+            return destroyed;
         }
 
         public void SetIsGrabbed(bool value) {
