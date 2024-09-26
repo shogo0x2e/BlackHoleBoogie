@@ -44,7 +44,7 @@ namespace Object {
             rotDirection = Vector.GetRandomDirection();
 
             baseScale = transform.localScale.x;
-            
+
             OnSpawn();
         }
 
@@ -52,8 +52,7 @@ namespace Object {
 
         public void Update() {
             // Destroy space objects within BH
-            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius)
-            {
+            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 shrinkTimeAcc += Time.deltaTime;
                 float shrinkScale = baseScale * (shrinkTime - shrinkTimeAcc);
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
