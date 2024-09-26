@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
         private const float defaultRotationSpeed = 42F;
-        private const float blackHoleRadius = 0.8F;
+        private const float blackHoleRadius = 0.666F;
 
         private bool mainMode;
 
@@ -25,6 +25,10 @@ namespace Object {
 
         private bool isGrabbed = false;
 
+        private float baseScale;
+        private const float shrinkTime = 1F;
+        private float shrinkTimeAcc = 0;
+
         public void Start() {
             mainMode = BlackHole.GetInstance() != null;
 
@@ -38,6 +42,9 @@ namespace Object {
                 ? Random.Range(minRotSpeed, maxRotSpeed)
                 : defaultRotationSpeed;
             rotDirection = Vector.GetRandomDirection();
+
+            baseScale = transform.localScale.x;
+            
             OnSpawn();
         }
 
@@ -45,11 +52,12 @@ namespace Object {
 
         public void Update() {
             // Destroy space objects within BH
-            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
-                float shrinkScale = 1 - 100 * Time.deltaTime;
+            if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius)
+            {
+                shrinkTimeAcc += Time.deltaTime;
+                float shrinkScale = baseScale * (shrinkTime - shrinkTimeAcc);
                 transform.localScale = new Vector3(shrinkScale, shrinkScale, shrinkScale);
                 GetSucked();
-                return;
             }
 
             if (isGrabbed) {
@@ -75,7 +83,7 @@ namespace Object {
 
             LifeManager.lifeCount--;
 
-            Destroy(gameObject, 0.2F);
+            Destroy(gameObject, shrinkTime);
 
             sucked = true;
         }
