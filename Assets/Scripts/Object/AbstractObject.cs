@@ -11,7 +11,7 @@ namespace Object {
         public const float hardestForce = 4.2F;
 
         private const float defaultRotationSpeed = 42F;
-        private const float blackHoleRadius = 0.666F;
+        private const float blackHoleRadius = 0.6F;
 
         private bool mainMode;
 
