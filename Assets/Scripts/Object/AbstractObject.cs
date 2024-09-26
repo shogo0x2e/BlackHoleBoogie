@@ -58,6 +58,8 @@ namespace Object {
         public virtual void OnSpawn() { }
 
         public void Update() {
+            if (BlackHole.paused) return; // TODO: TEMPORARY FIX
+            
             // Destroy space objects within BH
             if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 shrinkTimeAcc += Time.deltaTime;

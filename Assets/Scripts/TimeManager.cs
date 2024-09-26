@@ -5,10 +5,12 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour {
     public Text timeText;
 
-    private const float gameDuration = 140F;
-    private static float secondsLeft = gameDuration;
+    private const float gameDuration = 141F;
+    public static float secondsLeft = gameDuration;
 
     public void Update() {
+        if (BlackHole.paused) return; // TODO: TEMPORARY FIX
+        
         secondsLeft -= Time.deltaTime;
 
         if (secondsLeft <= 0) {
