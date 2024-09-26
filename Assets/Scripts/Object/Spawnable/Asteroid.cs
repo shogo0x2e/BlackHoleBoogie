@@ -21,7 +21,6 @@ namespace Object.Spawnable {
         }
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) {
-            // TODO: Maybe also do a camera effect because an asteroid just hurted the head
             KnockBack(colPosition, colForce);
         }
 
@@ -34,9 +33,11 @@ namespace Object.Spawnable {
         }
 
         public override void OnPunch(Vector3 colPosition, float colForce) {
-            Explode(colPosition, colForce);
-            
-            ScoreManager.scoreCount++;
+            if (colForce > softForce) {
+                Explode(colPosition, colForce);
+
+                ScoreManager.scoreCount++;
+            }
         }
 
         private void Explode(Vector3 colPosition, float colForce) {

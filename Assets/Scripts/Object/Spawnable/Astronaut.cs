@@ -15,7 +15,9 @@ namespace Object.Spawnable {
             KnockBack(colPosition, colForce);
             PlayHitSound();
 
-            Destroy(gameObject, 6F);
+            if (colForce > softForce) {
+                Destroy(gameObject, 6F);
+            }
         }
 
         public override bool IsGrabbable() {
@@ -26,7 +28,9 @@ namespace Object.Spawnable {
             KnockBack(colPosition, colForce);
             PlayHitSound();
 
-            Destroy(gameObject, 6F);
+            if (colForce > softForce) {
+                Destroy(gameObject, 6F);
+            }
         }
 
         private void PlayHitSound() {

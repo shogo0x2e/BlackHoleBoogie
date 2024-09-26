@@ -4,6 +4,12 @@ using Random = UnityEngine.Random;
 
 namespace Object {
     public abstract class AbstractObject : MonoBehaviour {
+        public const float softestForce = 0.2F;
+        public const float softForce = 1.36F;
+        public const float midForce = 2F;
+        public const float hardForce = 3.0F;
+        public const float hardestForce = 4.2F;
+
         private const float defaultRotationSpeed = 42F;
         private const float blackHoleRadius = 0.666F;
 
@@ -106,7 +112,7 @@ namespace Object {
 
             // Collision with the head
             if (colObjectParent.CompareTag("MainCamera")) {
-                float colForce = 16 * Head.GetInstance().GetVelocity();
+                float colForce = 12 * Head.GetInstance().GetVelocity() + 2;
                 OnHeadCollision(colPosition, colForce);
                 return;
             }
