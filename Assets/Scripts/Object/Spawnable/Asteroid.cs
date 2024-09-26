@@ -43,6 +43,12 @@ namespace Object.Spawnable {
             }
 
             ScoreManager.scoreCount++;
+            if(TutorialManager.tutorialStep == 0)
+            {
+                TutorialManager.tutorialStringText = "Quest: Save an Astronaut!";
+                TutorialManager.tutorialStep = 1;
+            }
+            
 
             // TODO: Should add collider to childrens and make them stay in space
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();

@@ -81,7 +81,8 @@ namespace Object {
 
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            LifeManager.lifeCount--;
+            //If we implement lives again this is where we should do it
+            //LifeManager.lifeCount--;
 
             Destroy(gameObject, shrinkTime);
 
@@ -99,11 +100,18 @@ namespace Object {
                 return;
             }
 
-            ContactPoint contact = collision.contacts[0];
-            Vector3 colPosition = contact.point;
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(6F, collision.contacts[0].point, 10);
+            if(TutorialManager.tutorialStep == 1)
+            {
+                TutorialManager.tutorialStringText = "";
+                TutorialManager.tutorialStep = 2;
+            }
 
             GameObject colObject = collision.gameObject;
             Transform colObjectParent = colObject.transform.parent;
+            ContactPoint contact = collision.contacts[0];
+            Vector3 colPosition = contact.point;
 
             // Collision with the head
             if (colObjectParent.CompareTag("MainCamera")) {

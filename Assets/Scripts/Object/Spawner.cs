@@ -23,7 +23,8 @@ namespace Object {
         public void Start() {
             instance = this;
 
-            LifeManager.lifeCount = 3;
+            //To be added if we add a life counter again in the future
+            //LifeManager.lifeCount = 3;
         }
 
         public void FixedUpdate() {
