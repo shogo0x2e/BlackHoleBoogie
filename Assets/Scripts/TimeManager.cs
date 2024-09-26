@@ -1,18 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour {
     public Text timeText;
-    private static float secondsLeft = 120F;
+
+    private const float gameDuration = 140F;
+    private static float secondsLeft = gameDuration;
 
     public void Update() {
         secondsLeft -= Time.deltaTime;
 
         if (secondsLeft <= 0) {
             ScoreManager.scoreCount = 0;
-            secondsLeft = 120F;
+            secondsLeft = gameDuration;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
