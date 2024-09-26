@@ -28,7 +28,7 @@ namespace Object.Spawnable {
             }
 
             // Decrease score because it hurts to collide an Asteroid with your head :)
-            ScoreManager.scoreCount -= colForce * 2F;
+            ScoreManager.scoreCount -= 20;
             SetDestroyed(true);
         }
 
@@ -39,7 +39,7 @@ namespace Object.Spawnable {
                 return;
             }
             
-            ScoreManager.scoreCount += colForce * 6F;
+            ScoreManager.scoreCount += 60;
             SetDestroyed(true);
         }
 
@@ -53,7 +53,7 @@ namespace Object.Spawnable {
             }
 
             Explode(colPosition, colForce);
-            ScoreManager.scoreCount += colForce * 20F;
+            ScoreManager.scoreCount += 200;
             SetDestroyed(true);
         }
 

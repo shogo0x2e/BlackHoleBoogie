@@ -87,7 +87,7 @@ namespace Object {
 
             AudioManager.PlayAudioSource(onDestroySound, transform);
 
-            ScoreManager.scoreCount -= 30F;
+            ScoreManager.scoreCount -= 20;
 
             Destroy(gameObject, shrinkTime);
 
@@ -102,6 +102,10 @@ namespace Object {
 
         public void OnCollisionEnter(Collision collision) {
             if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+                return;
+            }
+
+            if (suckedIn) {
                 return;
             }
 

@@ -14,7 +14,7 @@ namespace Object.Spawnable {
                 return;
             }
 
-            ScoreManager.scoreCount += colForce * 1F;
+            ScoreManager.scoreCount += 10;
             SetDestroyed(true);
         }
 
@@ -26,7 +26,7 @@ namespace Object.Spawnable {
             }
 
             PlayHitSound();
-            ScoreManager.scoreCount += colForce * 10F;
+            ScoreManager.scoreCount += 100;
             Destroy(gameObject, 6F);
             SetDestroyed(true);
         }
@@ -43,7 +43,7 @@ namespace Object.Spawnable {
             }
 
             PlayHitSound();
-            ScoreManager.scoreCount += colForce * 2F;
+            ScoreManager.scoreCount += 40;
             Destroy(gameObject, 6F);
             SetDestroyed(true);
         }
