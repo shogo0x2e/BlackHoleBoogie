@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class HandsManager : MonoBehaviour {
@@ -63,6 +64,10 @@ public class HandsManager : MonoBehaviour {
     }
 
     public void OnRightRockShape() {
+        if (TimeManager.secondsLeft > 0) {
+            BlackHole.paused = false; // TODO: TEMPORARY FIX FOR Forskar
+        }
+
         rightHandData.SetHandShape(HandData.HandShape.Rock);
         rightHandData.SetHandMaterialColor(rockColor);
     }
