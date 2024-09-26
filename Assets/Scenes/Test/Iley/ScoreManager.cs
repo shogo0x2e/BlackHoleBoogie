@@ -18,5 +18,8 @@ public class ScoreManager : MonoBehaviour
     void Update()
     {
         scoreText.text = "Score: " + Mathf.Round(scoreCount);
+        if(scoreCount < 0){
+            
+        }
     }
 }
