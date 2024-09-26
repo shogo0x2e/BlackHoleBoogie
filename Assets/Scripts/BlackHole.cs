@@ -7,7 +7,7 @@ public class BlackHole : MonoBehaviour {
         return instance;
     }
 
-    public void Start() {
+    public void Awake() {
         instance = this;
     }
 

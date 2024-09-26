@@ -1,12 +1,9 @@
 ﻿using Object.Manager;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
 
-namespace Object.Spawnable
-{
-    public class Asteroid : AbstractObject
-    {
+namespace Object.Spawnable {
+    public class Asteroid : AbstractObject {
         [SerializeField] private AsteroidManager asteroidManager;
 
         private GameObject currentModel;
@@ -16,33 +13,32 @@ namespace Object.Spawnable
         private const float explForceFactor = 80F;
         private bool broken = false;
 
-        public override void OnSpawn()
-        {
+        public override void OnSpawn() {
             GameObject[] asteroidModels = asteroidManager.GetAsteroidModels();
             GameObject selectedModel = asteroidModels[Random.Range(0, asteroidModels.Length)];
             currentModel = Instantiate(selectedModel, transform.position, transform.rotation);
             currentModel.transform.parent = transform;
         }
 
-        public new void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.GetComponent<AbstractObject>() != null)
-            {
-                return; // Do not explode when colliding with other space objects
-            }
-
-            ContactPoint contact = collision.contacts[0];
-            Vector3 colPosition = contact.point;
-            Vector3 colVelocity = collision.relativeVelocity;
-            float colForce = colVelocity.magnitude * collision.rigidbody.mass;
-
-            Explode(colPosition, 8F);
+        public override void OnHeadCollision(Vector3 colPosition, float colForce) {
+            // TODO: Maybe also do a camera effect because an asteroid just hurted the head
+            KnockBack(colPosition, colForce);
         }
 
-        private void Explode(Vector3 colPosition, float colForce)
-        {
-            if (broken)
-            {
+        public override void OnSlap(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
+        }
+
+        public override bool IsGrabbable() {
+            return false;
+        }
+
+        public override void OnPunch(Vector3 colPosition, float colForce) {
+            Explode(colPosition, colForce);
+        }
+
+        private void Explode(Vector3 colPosition, float colForce) {
+            if (broken) {
                 return;
             }
 
@@ -53,11 +49,11 @@ namespace Object.Spawnable
                 TutorialManager.tutorialStep = 1;
             }
             
+
+            // TODO: Should add collider to childrens and make them stay in space
             Transform[] trsfs = currentModel.GetComponentsInChildren<Transform>();
-            foreach (Transform trsf in trsfs)
-            {
-                if (trsf.GetComponent<Rigidbody>() != null)
-                {
+            foreach (Transform trsf in trsfs) {
+                if (trsf.GetComponent<Rigidbody>() != null) {
                     return;
                 }
 
@@ -66,9 +62,8 @@ namespace Object.Spawnable
             }
 
             Rigidbody[] rbs = currentModel.GetComponentsInChildren<Rigidbody>();
-            foreach (Rigidbody rb in rbs)
-            {
-                rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10);
+            foreach (Rigidbody rb in rbs) {
+                rb.AddExplosionForce(colForce * explForceFactor, colPosition, 10F);
             }
 
             AudioManager.PlayAudioSource(explAudioSource, transform);
