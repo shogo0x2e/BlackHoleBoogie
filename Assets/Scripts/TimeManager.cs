@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour {
     public Text timeText;
 
-    private const float gameDuration = 141F;
+    private const float gameDuration = 91F;
     public static float secondsLeft = gameDuration;
 
     public void Update() {
