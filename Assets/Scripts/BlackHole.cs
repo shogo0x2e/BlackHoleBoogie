@@ -3,11 +3,13 @@ using UnityEngine;
 public class BlackHole : MonoBehaviour {
     private static BlackHole instance;
 
+    public static bool paused = true; // TODO: TEMPORARY FIX
+
     public static BlackHole GetInstance() {
         return instance;
     }
 
-    public void Start() {
+    public void Awake() {
         instance = this;
     }
 
