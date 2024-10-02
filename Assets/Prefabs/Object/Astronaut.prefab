@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7892049870622951527}
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8cea98d335472ea8eaf2963c03c09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMoveSpeed: 0.42
-  maxMoveSpeed: 0.6
+  minMoveSpeed: 0.38
+  maxMoveSpeed: 0.48
   minRotSpeed: 0
   maxRotSpeed: 0
   onDestroySound: {fileID: 3071280493169229862, guid: c24b546ab413d0146a737d649dc1e194,
