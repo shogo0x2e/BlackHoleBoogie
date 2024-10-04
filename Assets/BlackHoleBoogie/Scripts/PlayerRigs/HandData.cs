@@ -55,6 +55,8 @@ public class HandData : MonoBehaviour {
         previousPositionTip = transform.position;
 
         if (handShape == HandShape.Gun) {
+            Debug.Log("handVel: hand " + GetVelocity());
+            Debug.Log("handVel: tip " + GetVelocityTip());
             if (GetVelocity() < 11111) { // TODO:
                 if (GetVelocityTip() > 1111) { }
             }
