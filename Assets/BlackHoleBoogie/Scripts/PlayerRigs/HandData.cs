@@ -1,4 +1,5 @@
 ﻿using Object;
+using System;
 using UnityEngine;
 
 public class HandData : MonoBehaviour {
@@ -9,7 +10,8 @@ public class HandData : MonoBehaviour {
         Other,
         Open,
         Grab,
-        Rock
+        Rock,
+        Gun
     }
 
     private HandShape handShape = HandShape.Open;
@@ -18,10 +20,45 @@ public class HandData : MonoBehaviour {
 
     [SerializeField] private Material handMaterial;
 
+    private Transform handIndexTip;
+    private Vector3 previousPositionTip = Vector3.zero;
+    private Vector3 currentVelocityTip = Vector3.zero;
+
+    public void Start() {
+        handIndexTip = FindIndex(transform);
+    }
+
+    private static Transform FindIndex(Transform parNode) {
+        foreach (Transform childNode in parNode) {
+            if (childNode.name == "Hand_IndexTip") {
+                return childNode;
+            }
+
+            if (childNode.childCount != 0) {
+                Transform result = FindIndex(childNode);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public void Update() {
         Vector3 deltaPosition = transform.position - previousPosition;
         currentVelocity = deltaPosition / Time.deltaTime;
         previousPosition = transform.position;
+
+        Vector3 deltaPositionTip = transform.position - previousPositionTip;
+        currentVelocityTip = deltaPositionTip / Time.deltaTime;
+        previousPositionTip = transform.position;
+
+        if (handShape == HandShape.Gun) {
+            if (GetVelocity() < 11111) { // TODO:
+                if (GetVelocityTip() > 1111) { }
+            }
+        }
     }
 
     public void GrabObject(AbstractObject spaceObject) {
@@ -48,6 +85,10 @@ public class HandData : MonoBehaviour {
 
     public float GetVelocity() {
         return currentVelocity.magnitude;
+    }
+
+    public float GetVelocityTip() {
+        return currentVelocityTip.magnitude;
     }
 
     public void SetHandShape(HandShape value) {

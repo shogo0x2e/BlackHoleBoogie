@@ -25,7 +25,7 @@ namespace Object {
         }
 
         public void FixedUpdate() {
-            if (BlackHole.paused) return; // TODO: TEMPORARY FIX
+            if (BlackHole.paused) return; // TODO: Remove when menu is implemented
             
             // if (currentObjectCount < maxObjectCount && Random.Range(0F, 1F) < spawnRate) {
             if (Random.Range(0F, 1F) < spawnRate) {

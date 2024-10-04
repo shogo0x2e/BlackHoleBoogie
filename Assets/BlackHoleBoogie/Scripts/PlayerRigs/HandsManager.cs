@@ -15,6 +15,7 @@ public class HandsManager : MonoBehaviour {
     private readonly Color openColor = Color.yellow;
     private readonly Color grabColor = Color.green;
     private readonly Color rockColor = Color.red;
+    private readonly Color gunColor = Color.cyan;
 
     public void Start() {
         instance = this;
@@ -64,12 +65,20 @@ public class HandsManager : MonoBehaviour {
     }
 
     public void OnRightRockShape() {
-        if (TimeManager.secondsLeft > 0) {
-            BlackHole.paused = false; // TODO: TEMPORARY FIX FOR Forskar
-        }
+        if (TimeManager.secondsLeft > 0) BlackHole.paused = false; // TODO: Remove when menu is implemented
 
         rightHandData.SetHandShape(HandData.HandShape.Rock);
         rightHandData.SetHandMaterialColor(rockColor);
+    }
+
+    public void OnLeftGunShape() {
+        leftHandData.SetHandShape(HandData.HandShape.Gun);
+        leftHandData.SetHandMaterialColor(gunColor);
+    }
+
+    public void OnRightGunShape() {
+        rightHandData.SetHandShape(HandData.HandShape.Gun);
+        rightHandData.SetHandMaterialColor(gunColor);
     }
 
     public HandData GetLeftHandData() {

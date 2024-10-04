@@ -58,7 +58,7 @@ namespace Object {
         public virtual void OnSpawn() { }
 
         public void Update() {
-            if (BlackHole.paused) return; // TODO: TEMPORARY FIX
+            if (BlackHole.paused) return; // TODO: Remove when menu is implemented
             
             // Destroy space objects within BH
             if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {

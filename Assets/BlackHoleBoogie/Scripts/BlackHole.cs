@@ -3,7 +3,7 @@ using UnityEngine;
 public class BlackHole : MonoBehaviour {
     private static BlackHole instance;
 
-    public static bool paused = true; // TODO: TEMPORARY FIX
+    public static bool paused = true; // TODO: Remove when menu is implemented
 
     public static BlackHole GetInstance() {
         return instance;
