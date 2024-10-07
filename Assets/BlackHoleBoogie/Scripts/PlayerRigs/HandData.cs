@@ -1,8 +1,14 @@
 ﻿using Object;
-using System;
 using UnityEngine;
 
 public class HandData : MonoBehaviour {
+    private HandType handType;
+
+    public enum HandType {
+        Left,
+        Right
+    }
+
     private Vector3 previousPosition = Vector3.zero;
     private Vector3 currentVelocity = Vector3.zero;
 
@@ -11,7 +17,8 @@ public class HandData : MonoBehaviour {
         Open,
         Grab,
         Rock,
-        Gun
+        Gun,
+        Index
     }
 
     private HandShape handShape = HandShape.Open;
@@ -21,8 +28,6 @@ public class HandData : MonoBehaviour {
     [SerializeField] private Material handMaterial;
 
     private Transform handIndexTip;
-    private Vector3 previousPositionTip = Vector3.zero;
-    private Vector3 currentVelocityTip = Vector3.zero;
 
     public void Start() {
         handIndexTip = FindIndex(transform);
@@ -49,18 +54,6 @@ public class HandData : MonoBehaviour {
         Vector3 deltaPosition = transform.position - previousPosition;
         currentVelocity = deltaPosition / Time.deltaTime;
         previousPosition = transform.position;
-
-        Vector3 deltaPositionTip = transform.position - previousPositionTip;
-        currentVelocityTip = deltaPositionTip / Time.deltaTime;
-        previousPositionTip = transform.position;
-
-        if (handShape == HandShape.Gun) {
-            Debug.Log("handVel: hand " + GetVelocity());
-            Debug.Log("handVel: tip " + GetVelocityTip());
-            if (GetVelocity() < 11111) { // TODO:
-                if (GetVelocityTip() > 1111) { }
-            }
-        }
     }
 
     public void GrabObject(AbstractObject spaceObject) {
@@ -85,12 +78,16 @@ public class HandData : MonoBehaviour {
         grabbedObject = null;
     }
 
-    public float GetVelocity() {
-        return currentVelocity.magnitude;
+    public void SetHandType(HandType value) {
+        handType = value;
     }
 
-    public float GetVelocityTip() {
-        return currentVelocityTip.magnitude;
+    public HandType GetHandType() {
+        return handType;
+    }
+
+    public float GetVelocity() {
+        return currentVelocity.magnitude;
     }
 
     public void SetHandShape(HandShape value) {
@@ -107,5 +104,9 @@ public class HandData : MonoBehaviour {
 
     public void SetHandMaterialColor(Color color) {
         handMaterial.color = color;
+    }
+
+    public Transform GetHandIndexTip() {
+        return handIndexTip;
     }
 }

@@ -16,9 +16,19 @@ public class HandsManager : MonoBehaviour {
     private readonly Color grabColor = Color.green;
     private readonly Color rockColor = Color.red;
     private readonly Color gunColor = Color.cyan;
+    private readonly Color indexColor = Color.white;
+
+    [SerializeField] private HandTipLaser leftHandTipLaser;
+    [SerializeField] private HandTipLaser rightHandTipLaser;
 
     public void Start() {
         instance = this;
+
+        leftHandData.SetHandType(HandData.HandType.Left);
+        rightHandData.SetHandType(HandData.HandType.Right);
+
+        leftHandTipLaser.SetHandData(leftHandData);
+        rightHandTipLaser.SetHandData(rightHandData);
     }
 
     public void OnLeftOtherShape() {
@@ -79,6 +89,20 @@ public class HandsManager : MonoBehaviour {
     public void OnRightGunShape() {
         rightHandData.SetHandShape(HandData.HandShape.Gun);
         rightHandData.SetHandMaterialColor(gunColor);
+    }
+
+    public void OnLeftIndexShape() {
+        if (leftHandData.GetHandShape() == HandData.HandShape.Gun) {
+            leftHandData.SetHandShape(HandData.HandShape.Index);
+            leftHandData.SetHandMaterialColor(indexColor);
+        }
+    }
+
+    public void OnRightIndexShape() {
+        if (rightHandData.GetHandShape() == HandData.HandShape.Gun) {
+            rightHandData.SetHandShape(HandData.HandShape.Index);
+            rightHandData.SetHandMaterialColor(indexColor);
+        }
     }
 
     public HandData GetLeftHandData() {
