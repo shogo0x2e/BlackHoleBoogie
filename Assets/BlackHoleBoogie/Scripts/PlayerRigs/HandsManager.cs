@@ -84,11 +84,13 @@ public class HandsManager : MonoBehaviour {
     public void OnLeftGunShape() {
         leftHandData.SetHandShape(HandData.HandShape.Gun);
         leftHandData.SetHandMaterialColor(gunColor);
+        leftHandTipLaser.SetShowLaser(true);
     }
 
     public void OnRightGunShape() {
         rightHandData.SetHandShape(HandData.HandShape.Gun);
         rightHandData.SetHandMaterialColor(gunColor);
+        rightHandTipLaser.SetShowLaser(true);
     }
 
     public void OnLeftIndexShape() {
@@ -111,5 +113,13 @@ public class HandsManager : MonoBehaviour {
 
     public HandData GetRightHandData() {
         return rightHandData;
+    }
+
+    public HandTipLaser GetLeftHandTipLaser() {
+        return leftHandTipLaser;
+    }
+
+    public HandTipLaser GetRightHandTipLaser() {
+        return rightHandTipLaser;
     }
 }

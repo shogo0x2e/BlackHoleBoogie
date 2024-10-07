@@ -95,6 +95,14 @@ public class HandData : MonoBehaviour {
             ReleaseObject();
         }
 
+        if (value != HandShape.Gun) {
+            if (handType == HandType.Left) {
+                HandsManager.GetInstance().GetLeftHandTipLaser().SetShowLaser(false);
+            } else {
+                HandsManager.GetInstance().GetRightHandTipLaser().SetShowLaser(false);
+            }
+        }
+
         handShape = value;
     }
 

@@ -8,11 +8,17 @@ public class HandTipLaser : MonoBehaviour {
 
     private LineRenderer laserLineRenderer;
 
+    private bool showLaser = false;
+
     public void Start() {
         laserLineRenderer = GetComponent<LineRenderer>();
     }
 
     public void Update() {
+        if (!showLaser) {
+            return;
+        }
+
         Transform laserOrigin = handData.GetHandIndexTip().transform;
 
         laserLineRenderer.SetPosition(0, laserOrigin.position);
@@ -33,5 +39,10 @@ public class HandTipLaser : MonoBehaviour {
 
     public void SetHandData(HandData value) {
         handData = value;
+    }
+
+    public void SetShowLaser(bool value) {
+        showLaser = value;
+        laserLineRenderer.enabled = showLaser;
     }
 }
