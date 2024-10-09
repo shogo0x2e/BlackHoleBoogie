@@ -27,10 +27,13 @@ public class SpeechRecognitionTest : MonoBehaviour {
 
     private void StartRecording() {
         text.color = Color.white;
+        if (text.text.ToLower().Contains("fire")) {
+                text.color = Color.magenta;
+            }
         //text.text = "Recording...";
         startButton.interactable = false;
         stopButton.interactable = true;
-        clip = Microphone.Start(null, false, 3, 44100);
+        clip = Microphone.Start(null, false, 4, 44100);
         recording = true;
     }
 
@@ -45,15 +48,15 @@ public class SpeechRecognitionTest : MonoBehaviour {
     }
 
     private void SendRecording() {
-        text.color = Color.yellow;
         //text.text = "Sending...";
         stopButton.interactable = false;
         HuggingFaceAPI.AutomaticSpeechRecognition(bytes, response => {
-            text.color = Color.white;
+            
             text.text += response;
+
+
             StartRecording();
         }, error => {
-            text.color = Color.red;
             //text.text = error;
             StartRecording();
         });
