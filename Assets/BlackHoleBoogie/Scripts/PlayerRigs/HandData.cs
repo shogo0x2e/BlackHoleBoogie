@@ -78,6 +78,19 @@ public class HandData : MonoBehaviour {
         grabbedObject = null;
     }
 
+    private void ShootArrow() {
+        Vector3 arrowDirection = handIndexTip.transform.right;
+        if (GetHandType() == HandType.Left) {
+            arrowDirection = -arrowDirection;
+        }
+
+        GameObject arrowGameObject = HandsManager.GetInstance().GetArrowGameObject();
+        Instantiate(
+            arrowGameObject,
+            handIndexTip.transform.position,
+            Quaternion.LookRotation(arrowDirection));
+    }
+
     public void SetHandType(HandType value) {
         handType = value;
     }
@@ -101,6 +114,10 @@ public class HandData : MonoBehaviour {
             } else {
                 HandsManager.GetInstance().GetRightHandTipLaser().SetShowLaser(false);
             }
+        }
+
+        if (handShape == HandShape.Gun && value == HandShape.Index) {
+            ShootArrow();
         }
 
         handShape = value;

@@ -21,6 +21,8 @@ public class HandsManager : MonoBehaviour {
     [SerializeField] private HandTipLaser leftHandTipLaser;
     [SerializeField] private HandTipLaser rightHandTipLaser;
 
+    [SerializeField] private GameObject arrowGameObject;
+    
     public void Start() {
         instance = this;
 
@@ -121,5 +123,9 @@ public class HandsManager : MonoBehaviour {
 
     public HandTipLaser GetRightHandTipLaser() {
         return rightHandTipLaser;
+    }
+
+    public GameObject GetArrowGameObject() {
+        return arrowGameObject;
     }
 }
