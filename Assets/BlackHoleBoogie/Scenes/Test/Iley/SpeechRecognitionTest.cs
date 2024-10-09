@@ -30,7 +30,7 @@ public class SpeechRecognitionTest : MonoBehaviour {
         //text.text = "Recording...";
         startButton.interactable = false;
         stopButton.interactable = true;
-        clip = Microphone.Start(null, false, 4, 44100);
+        clip = Microphone.Start(null, false, 3, 44100);
         recording = true;
     }
 
