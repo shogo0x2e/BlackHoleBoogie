@@ -21,9 +21,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PortalMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 278a30559ab1da94295e925da0dedc9b,
+  m_Shader: {fileID: -6465566751694194690, guid: ce68c868b0ca3d442901f726e02fc253,
     type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: 278a30559ab1da94295e925da0dedc9b,
+  m_Parent: {fileID: -876546973899608171, guid: ce68c868b0ca3d442901f726e02fc253,
     type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -39,6 +39,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _QueueControl: 0
+    - _RotationSpeed: 1
+    - _RotationStrength: 123
+    m_Colors:
+    - _Frenell_Color: {r: 2.9237356, g: 1.0249332, b: 0.31719777, a: 0}
   m_BuildTextureStacks: []
