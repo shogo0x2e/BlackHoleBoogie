@@ -3,12 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class HandTipLaser : MonoBehaviour {
     private const float laserRange = 100F;
+    private LineRenderer laserLineRenderer;
+    private bool showLaser = false;
 
     private HandData handData;
-
-    private LineRenderer laserLineRenderer;
-
-    private bool showLaser = false;
 
     public void Start() {
         laserLineRenderer = GetComponent<LineRenderer>();
