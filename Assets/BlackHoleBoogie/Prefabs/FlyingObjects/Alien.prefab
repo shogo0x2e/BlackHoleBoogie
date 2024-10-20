@@ -274,4 +274,5 @@ MonoBehaviour:
   minRotSpeed: 0
   maxRotSpeed: 0
   onDestroySound: {fileID: 0}
-  fireBall: {fileID: 544114362585342094, guid: 209c28f6189066342a8e3d53cba87b02, type: 3}
+  fireBall: {fileID: 3523209251189712450, guid: 209c28f6189066342a8e3d53cba87b02,
+    type: 3}

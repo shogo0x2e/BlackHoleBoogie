@@ -4,9 +4,10 @@ namespace Object.Spawnable {
     public class Alien : AbstractObject {
         private const float laserRange = 100F;
         private LineRenderer laserLineRenderer;
-        private bool showLaser = true;
 
-        [SerializeField] private GameObject fireBall;
+        private bool canShoot = true;
+
+        [SerializeField] private FireBall fireBall;
 
         public override void OnSpawn() {
             laserLineRenderer = GetComponent<LineRenderer>();
@@ -15,8 +16,12 @@ namespace Object.Spawnable {
         }
 
         public new void Update() {
-            if (!showLaser) {
+            if (!canShoot) {
                 return;
+            }
+
+            if (Random.Range(0F, 1F) < 0.002F) {
+                Shoot();
             }
 
             Transform laserOrigin = transform;
@@ -34,7 +39,12 @@ namespace Object.Spawnable {
         }
 
         private void Shoot() {
-            showLaser = false;
+            SetCanShoot(false);
+
+            FireBall fireBallInstance = Instantiate(fireBall,
+                transform.position + 1.2F * transform.forward,
+                Quaternion.identity);
+            fireBallInstance.SetShooter(this);
         }
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) { }
@@ -46,5 +56,10 @@ namespace Object.Spawnable {
         }
 
         public override void OnPunch(Vector3 colPosition, float colForce) { }
+
+        public void SetCanShoot(bool value) {
+            canShoot = value;
+            laserLineRenderer.enabled = canShoot;
+        }
     }
 }
