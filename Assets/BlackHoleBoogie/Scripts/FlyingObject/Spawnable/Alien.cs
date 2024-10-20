@@ -2,8 +2,8 @@
 
 namespace Object.Spawnable {
     public class Alien : AbstractObject {
-        private const float floatAimplitude = 0.6F;
-        private const float floatSpeed = 1F;
+        private float floatAmplitude;
+        private float floatSpeed;
         private Vector3 startPosition;
 
         private const float laserRange = 100F;
@@ -14,13 +14,15 @@ namespace Object.Spawnable {
         [SerializeField] private FireBall fireBall;
 
         public override void OnSpawn() {
+            floatAmplitude = Random.Range(0.1F, 0.2F);
+            floatSpeed = Random.Range(0.6F, 1.2F);
             startPosition = transform.position;
 
             laserLineRenderer = GetComponent<LineRenderer>();
         }
 
         public new void Update() {
-            float floatY = startPosition.y + floatAimplitude * Mathf.Sin(Time.time * floatSpeed);
+            float floatY = startPosition.y + floatAmplitude * Mathf.Sin(Time.time * floatSpeed);
             transform.position = new Vector3(startPosition.x, floatY, startPosition.z);
 
             transform.LookAt(BlackHole.GetInstance().GetPosition());
