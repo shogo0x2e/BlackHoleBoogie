@@ -1,5 +1,15 @@
 {
   "dependencies": {
+    "com.huggingface.api": {
+      "version": "https://github.com/huggingface/unity-api.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.6",
+        "com.unity.nuget.newtonsoft-json": "3.0.1"
+      },
+      "hash": "8d0231780ead66aba3ad5ad3373158d5de0bc533"
+    },
     "com.meta.xr.mrutilitykit": {
       "version": "64.0.0",
       "depth": 1,
@@ -209,7 +219,7 @@
     },
     "com.unity.nuget.newtonsoft-json": {
       "version": "3.2.1",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
