@@ -5142,8 +5142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb0538f55ec7c742a1efd0f8f89bc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 0}
-  stopButton: {fileID: 0}
   text: {fileID: 294075095}
 --- !u!4 &1744800958
 Transform:
