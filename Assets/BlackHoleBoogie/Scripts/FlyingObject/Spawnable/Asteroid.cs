@@ -33,6 +33,10 @@ namespace Object.Spawnable {
         }
 
         public override void OnArrowCollision(Vector3 colPosition, float colForce) {
+            if (IsDestroyed()) {
+                return;
+            }
+            
             Explode(colPosition, colForce);
             ScoreManager.scoreCount += 100;
             SetDestroyed(true);

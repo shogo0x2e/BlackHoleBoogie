@@ -20,6 +20,11 @@ namespace Object.Spawnable {
 
         public override void OnArrowCollision(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+
+            if (IsDestroyed()) {
+                return;
+            }
+            
             ScoreManager.scoreCount -= 20;
             Destroy(gameObject, 3.6F);
             SetDestroyed(true);

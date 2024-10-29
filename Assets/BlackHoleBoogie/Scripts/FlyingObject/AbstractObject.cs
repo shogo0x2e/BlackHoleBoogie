@@ -30,9 +30,9 @@ namespace Object {
 
         private bool suckedIn = false;
 
-        private float baseScale;
-        private const float shrinkTime = 0.6F;
-        private float shrinkTimeAcc = 0;
+        protected float baseScale;
+        protected const float shrinkTime = 0.6F;
+        protected float shrinkTimeAcc = 0;
 
         private bool isGrabbed = false;
 
@@ -86,12 +86,14 @@ namespace Object {
                 rotDelta * rotDirection.z);
         }
 
-        private void GetSucked() {
+        public virtual void GetSucked() {
             if (suckedIn) {
                 return;
             }
 
-            AudioManager.PlayAudioSource(onDestroySound, transform);
+            if (onDestroySound != null) {
+                AudioManager.PlayAudioSource(onDestroySound, transform);
+            }
 
             ScoreManager.scoreCount -= 20;
 
@@ -121,13 +123,13 @@ namespace Object {
             Vector3 colPosition = contact.point;
 
             // Collision with the head
-            if (colObjectParent.CompareTag("MainCamera")) {
+            if (colObjectParent != null && colObjectParent.CompareTag("MainCamera")) {
                 float colForce = 12 * Head.GetInstance().GetVelocity() + 2;
                 OnHeadCollision(colPosition, colForce);
                 return;
             }
 
-            if (colObject.CompareTag("Arrow")) {
+            if (colObject.gameObject.CompareTag("Arrow")) {
                 OnArrowCollision(colPosition, 8F);
                 return;
             }
@@ -208,6 +210,10 @@ namespace Object {
 
         public bool IsDestroyed() {
             return destroyed;
+        }
+
+        public bool IsSuckedIn() {
+            return suckedIn;
         }
 
         public void SetIsGrabbed(bool value) {

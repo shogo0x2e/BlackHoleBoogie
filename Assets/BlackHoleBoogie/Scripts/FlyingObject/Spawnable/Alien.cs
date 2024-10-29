@@ -6,7 +6,7 @@ namespace Object.Spawnable {
         private float floatSpeed;
         private Vector3 startPosition;
 
-        private const float laserRange = 100F;
+        // private const float laserRange = 100F;
         private LineRenderer laserLineRenderer;
 
         private bool canShoot = true;
@@ -45,6 +45,8 @@ namespace Object.Spawnable {
             Vector3 rayOrigin = laserOrigin.position;
 
             Vector3 laserDirection = laserOrigin.forward;
+            float laserRange = Vector3.Distance(laserOrigin.position, BlackHole.GetInstance().GetPosition());
+
             if (Physics.Raycast(rayOrigin, laserDirection,
                     out RaycastHit raycastHit, laserRange)) {
                 laserLineRenderer.SetPosition(1, raycastHit.point);
@@ -66,7 +68,13 @@ namespace Object.Spawnable {
 
         public override void OnArrowCollision(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
+
+            if (IsDestroyed()) {
+                return;
+            }
+
             ScoreManager.scoreCount += 300;
+            laserLineRenderer.enabled = false;
             Destroy(gameObject, 3.6F);
             SetDestroyed(true);
         }
