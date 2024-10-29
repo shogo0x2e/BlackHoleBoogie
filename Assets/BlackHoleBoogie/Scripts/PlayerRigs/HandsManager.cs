@@ -15,9 +15,22 @@ public class HandsManager : MonoBehaviour {
     private readonly Color openColor = Color.yellow;
     private readonly Color grabColor = Color.green;
     private readonly Color rockColor = Color.red;
+    private readonly Color gunColor = Color.cyan;
+    private readonly Color indexColor = Color.white;
 
+    [SerializeField] private HandTipLaser leftHandTipLaser;
+    [SerializeField] private HandTipLaser rightHandTipLaser;
+
+    [SerializeField] private GameObject arrowGameObject;
+    
     public void Start() {
         instance = this;
+
+        leftHandData.SetHandType(HandData.HandType.Left);
+        rightHandData.SetHandType(HandData.HandType.Right);
+
+        leftHandTipLaser.SetHandData(leftHandData);
+        rightHandTipLaser.SetHandData(rightHandData);
     }
 
     public void OnLeftOtherShape() {
@@ -64,12 +77,36 @@ public class HandsManager : MonoBehaviour {
     }
 
     public void OnRightRockShape() {
-        if (TimeManager.secondsLeft > 0) {
-            BlackHole.paused = false; // TODO: TEMPORARY FIX FOR Forskar
-        }
+        if (TimeManager.secondsLeft > 0) BlackHole.paused = false; // TODO: Remove when menu is implemented
 
         rightHandData.SetHandShape(HandData.HandShape.Rock);
         rightHandData.SetHandMaterialColor(rockColor);
+    }
+
+    public void OnLeftGunShape() {
+        leftHandData.SetHandShape(HandData.HandShape.Gun);
+        leftHandData.SetHandMaterialColor(gunColor);
+        leftHandTipLaser.SetShowLaser(true);
+    }
+
+    public void OnRightGunShape() {
+        rightHandData.SetHandShape(HandData.HandShape.Gun);
+        rightHandData.SetHandMaterialColor(gunColor);
+        rightHandTipLaser.SetShowLaser(true);
+    }
+
+    public void OnLeftIndexShape() {
+        if (leftHandData.GetHandShape() == HandData.HandShape.Gun) {
+            leftHandData.SetHandShape(HandData.HandShape.Index);
+            leftHandData.SetHandMaterialColor(indexColor);
+        }
+    }
+
+    public void OnRightIndexShape() {
+        if (rightHandData.GetHandShape() == HandData.HandShape.Gun) {
+            rightHandData.SetHandShape(HandData.HandShape.Index);
+            rightHandData.SetHandMaterialColor(indexColor);
+        }
     }
 
     public HandData GetLeftHandData() {
@@ -78,5 +115,17 @@ public class HandsManager : MonoBehaviour {
 
     public HandData GetRightHandData() {
         return rightHandData;
+    }
+
+    public HandTipLaser GetLeftHandTipLaser() {
+        return leftHandTipLaser;
+    }
+
+    public HandTipLaser GetRightHandTipLaser() {
+        return rightHandTipLaser;
+    }
+
+    public GameObject GetArrowGameObject() {
+        return arrowGameObject;
     }
 }

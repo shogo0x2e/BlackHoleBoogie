@@ -2,6 +2,13 @@
 using UnityEngine;
 
 public class HandData : MonoBehaviour {
+    private HandType handType;
+
+    public enum HandType {
+        Left,
+        Right
+    }
+
     private Vector3 previousPosition = Vector3.zero;
     private Vector3 currentVelocity = Vector3.zero;
 
@@ -9,7 +16,9 @@ public class HandData : MonoBehaviour {
         Other,
         Open,
         Grab,
-        Rock
+        Rock,
+        Gun,
+        Index
     }
 
     private HandShape handShape = HandShape.Open;
@@ -17,6 +26,29 @@ public class HandData : MonoBehaviour {
     private AbstractObject grabbedObject = null;
 
     [SerializeField] private Material handMaterial;
+
+    private Transform handIndexTip;
+
+    public void Start() {
+        handIndexTip = FindIndex(transform);
+    }
+
+    private static Transform FindIndex(Transform parNode) {
+        foreach (Transform childNode in parNode) {
+            if (childNode.name == "Hand_IndexTip") {
+                return childNode;
+            }
+
+            if (childNode.childCount != 0) {
+                Transform result = FindIndex(childNode);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+
+        return null;
+    }
 
     public void Update() {
         Vector3 deltaPosition = transform.position - previousPosition;
@@ -46,6 +78,27 @@ public class HandData : MonoBehaviour {
         grabbedObject = null;
     }
 
+    private void ShootArrow() {
+        Vector3 arrowDirection = handIndexTip.transform.right;
+        if (GetHandType() == HandType.Left) {
+            arrowDirection = -arrowDirection;
+        }
+
+        GameObject arrowGameObject = HandsManager.GetInstance().GetArrowGameObject();
+        Instantiate(
+            arrowGameObject,
+            handIndexTip.transform.position,
+            Quaternion.LookRotation(arrowDirection));
+    }
+
+    public void SetHandType(HandType value) {
+        handType = value;
+    }
+
+    public HandType GetHandType() {
+        return handType;
+    }
+
     public float GetVelocity() {
         return currentVelocity.magnitude;
     }
@@ -53,6 +106,18 @@ public class HandData : MonoBehaviour {
     public void SetHandShape(HandShape value) {
         if (value != HandShape.Grab) {
             ReleaseObject();
+        }
+
+        if (value != HandShape.Gun) {
+            if (handType == HandType.Left) {
+                HandsManager.GetInstance().GetLeftHandTipLaser().SetShowLaser(false);
+            } else {
+                HandsManager.GetInstance().GetRightHandTipLaser().SetShowLaser(false);
+            }
+        }
+
+        if (handShape == HandShape.Gun && value == HandShape.Index) {
+            ShootArrow();
         }
 
         handShape = value;
@@ -64,5 +129,9 @@ public class HandData : MonoBehaviour {
 
     public void SetHandMaterialColor(Color color) {
         handMaterial.color = color;
+    }
+
+    public Transform GetHandIndexTip() {
+        return handIndexTip;
     }
 }
