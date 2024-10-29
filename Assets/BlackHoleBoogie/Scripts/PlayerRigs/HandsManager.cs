@@ -16,13 +16,13 @@ public class HandsManager : MonoBehaviour {
     private readonly Color grabColor = Color.green;
     private readonly Color rockColor = Color.red;
     private readonly Color gunColor = Color.cyan;
-    private readonly Color indexColor = Color.white;
+    private readonly Color indexColor = Color.cyan;
 
     [SerializeField] private HandTipLaser leftHandTipLaser;
     [SerializeField] private HandTipLaser rightHandTipLaser;
 
     [SerializeField] private GameObject arrowGameObject;
-    
+
     public void Start() {
         instance = this;
 
@@ -96,17 +96,23 @@ public class HandsManager : MonoBehaviour {
     }
 
     public void OnLeftIndexShape() {
-        if (leftHandData.GetHandShape() == HandData.HandShape.Gun) {
-            leftHandData.SetHandShape(HandData.HandShape.Index);
-            leftHandData.SetHandMaterialColor(indexColor);
-        }
+        // if (leftHandData.GetHandShape() == HandData.HandShape.Gun) {
+        //     leftHandData.SetHandShape(HandData.HandShape.Index);
+        //     leftHandData.SetHandMaterialColor(indexColor);
+        // }
+        leftHandData.SetHandShape(HandData.HandShape.Index);
+        leftHandData.SetHandMaterialColor(indexColor);
+        leftHandTipLaser.SetShowLaser(true);
     }
 
     public void OnRightIndexShape() {
-        if (rightHandData.GetHandShape() == HandData.HandShape.Gun) {
-            rightHandData.SetHandShape(HandData.HandShape.Index);
-            rightHandData.SetHandMaterialColor(indexColor);
-        }
+        // if (rightHandData.GetHandShape() == HandData.HandShape.Gun) {
+        //     rightHandData.SetHandShape(HandData.HandShape.Index);
+        //     rightHandData.SetHandMaterialColor(indexColor);
+        // }
+        rightHandData.SetHandShape(HandData.HandShape.Index);
+        rightHandData.SetHandMaterialColor(indexColor);
+        rightHandTipLaser.SetShowLaser(true);
     }
 
     public HandData GetLeftHandData() {

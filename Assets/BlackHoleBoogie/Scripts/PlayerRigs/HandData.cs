@@ -28,6 +28,8 @@ public class HandData : MonoBehaviour {
     [SerializeField] private Material handMaterial;
 
     private Transform handIndexTip;
+    private const float shootTimeCd = 1F;
+    private float shootTimeAcc = 0;
 
     public void Start() {
         handIndexTip = FindIndex(transform);
@@ -54,6 +56,15 @@ public class HandData : MonoBehaviour {
         Vector3 deltaPosition = transform.position - previousPosition;
         currentVelocity = deltaPosition / Time.deltaTime;
         previousPosition = transform.position;
+
+        if (handShape == HandShape.Gun || handShape == HandShape.Index) {
+            shootTimeAcc -= Time.deltaTime;
+            if (shootTimeAcc < 0) {
+                ShootArrow();
+
+                shootTimeAcc = shootTimeCd;
+            }
+        }
     }
 
     public void GrabObject(AbstractObject spaceObject) {
@@ -108,17 +119,19 @@ public class HandData : MonoBehaviour {
             ReleaseObject();
         }
 
-        if (value != HandShape.Gun) {
+        if (value != HandShape.Gun && value != HandShape.Index) {
             if (handType == HandType.Left) {
                 HandsManager.GetInstance().GetLeftHandTipLaser().SetShowLaser(false);
             } else {
                 HandsManager.GetInstance().GetRightHandTipLaser().SetShowLaser(false);
             }
+        } else {
+            // shootTimeAcc = 0;
         }
 
-        if (handShape == HandShape.Gun && value == HandShape.Index) {
-            ShootArrow();
-        }
+        // if (handShape == HandShape.Gun && value == HandShape.Index) {
+        //     ShootArrow();
+        // }
 
         handShape = value;
     }
