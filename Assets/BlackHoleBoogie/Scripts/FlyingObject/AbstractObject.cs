@@ -30,7 +30,7 @@ namespace Object {
 
         private bool suckedIn = false;
 
-        protected float baseScale;
+        private float baseScale;
         protected const float shrinkTime = 0.6F;
         protected float shrinkTimeAcc = 0;
 

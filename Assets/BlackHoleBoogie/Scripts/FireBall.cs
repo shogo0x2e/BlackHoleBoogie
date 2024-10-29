@@ -7,6 +7,8 @@ public class FireBall : AbstractObject {
 
     private float psStartSize1;
     private float psStartSize2;
+    private float trailStartSize1;
+    private float trailStartSize2;
 
     public override void OnSpawn() {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -14,10 +16,12 @@ public class FireBall : AbstractObject {
         rb.AddForce(6F * direction, ForceMode.Impulse);
 
         ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-        psStartSize1 = particleSystems[0].main.startSizeMultiplier;
-        psStartSize2 = particleSystems[1].main.startSizeMultiplier;
+        psStartSize1 = particleSystems[0].main.startSize.constant;
+        psStartSize2 = particleSystems[1].main.startSize.constant;
 
-        Destroy(gameObject, 7.2F);
+        TrailRenderer[] trailRenderers = GetComponentsInChildren<TrailRenderer>();
+        trailStartSize1 = trailRenderers[0].startWidth;
+        trailStartSize2 = trailRenderers[1].startWidth;
     }
 
     public new void Update() {
@@ -27,12 +31,24 @@ public class FireBall : AbstractObject {
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
             ScaleParticleSystem(particleSystems[0], psStartSize1);
             ScaleParticleSystem(particleSystems[1], psStartSize2);
+
+            TrailRenderer[] trailRenderers = GetComponentsInChildren<TrailRenderer>();
+            ScaleTrailRenderer(trailRenderers[0], trailStartSize1);
+            ScaleTrailRenderer(trailRenderers[1], trailStartSize2);
         }
     }
 
     private void ScaleParticleSystem(ParticleSystem ps, float baseSize) {
         ParticleSystem.MainModule main = ps.main;
-        main.startSizeMultiplier = baseScale * (shrinkTime - shrinkTimeAcc) * (1F / shrinkTime);
+        main.startSize = baseSize * (shrinkTime - shrinkTimeAcc) * (1F / shrinkTime);
+
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        ps.Play();
+    }
+
+    private void ScaleTrailRenderer(TrailRenderer tr, float baseSize) {
+        tr.startWidth = baseSize * (shrinkTime - shrinkTimeAcc) * (1F / shrinkTime);
+        tr.endWidth = baseSize * (shrinkTime - shrinkTimeAcc) * (1F / shrinkTime);
     }
 
     public override void GetSucked() {
