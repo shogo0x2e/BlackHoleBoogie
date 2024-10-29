@@ -1,12 +1,13 @@
 using System.IO;
 using HuggingFace.API;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpeechRecognitionTest : MonoBehaviour {
-    [SerializeField] private Button startButton;
-    [SerializeField] private Button stopButton;
+    // [SerializeField] private Button startButton;
+    // [SerializeField] private Button stopButton;
     [SerializeField] private TextMeshProUGUI text;
 
     private AudioClip clip;
@@ -14,9 +15,10 @@ public class SpeechRecognitionTest : MonoBehaviour {
     private bool recording;
 
     private void Start() {
-        startButton.onClick.AddListener(StartRecording);
-        stopButton.onClick.AddListener(StopRecording);
-        stopButton.interactable = false;
+        // startButton.onClick.AddListener(StartRecording);
+        // stopButton.onClick.AddListener(StopRecording);
+        // stopButton.interactable = false;
+        StartRecording();
     }
 
     private void Update() {
@@ -27,14 +29,32 @@ public class SpeechRecognitionTest : MonoBehaviour {
 
     private void StartRecording() {
         text.color = Color.white;
-        if (text.text.ToLower().Contains("fire")) {
-                text.color = Color.magenta;
+        if (text.text.ToLower().Contains("hello")) {
+            text.text = "";
+            text.color = Color.magenta;
+
+            HandData leftHandData = HandsManager.GetInstance().GetLeftHandData();
+            HandData rightHandData = HandsManager.GetInstance().GetRightHandData();
+            if (leftHandData.GetHandShape() == HandData.HandShape.Index
+                || leftHandData.GetHandShape() == HandData.HandShape.Gun) {
+                leftHandData.ShootArrow();
             }
+
+            if (rightHandData.GetHandShape() == HandData.HandShape.Index
+                || rightHandData.GetHandShape() == HandData.HandShape.Gun) {
+                rightHandData.ShootArrow();
+            }
+        }
+
         //text.text = "Recording...";
-        startButton.interactable = false;
-        stopButton.interactable = true;
+        // startButton.interactable = false;
+        // stopButton.interactable = true;
         clip = Microphone.Start(null, false, 4, 44100);
         recording = true;
+    }
+
+    private void OnDestroy() {
+        StopRecording();
     }
 
     private void StopRecording() {
@@ -49,11 +69,9 @@ public class SpeechRecognitionTest : MonoBehaviour {
 
     private void SendRecording() {
         //text.text = "Sending...";
-        stopButton.interactable = false;
+        // stopButton.interactable = false;
         HuggingFaceAPI.AutomaticSpeechRecognition(bytes, response => {
-            
-            text.text += response;
-
+            text.text = "Speech: " + response;
 
             StartRecording();
         }, error => {
@@ -83,6 +101,7 @@ public class SpeechRecognitionTest : MonoBehaviour {
                     writer.Write((short)(sample * short.MaxValue));
                 }
             }
+
             return memoryStream.ToArray();
         }
     }

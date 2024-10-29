@@ -78,7 +78,7 @@ public class HandData : MonoBehaviour {
         grabbedObject = null;
     }
 
-    private void ShootArrow() {
+    public void ShootArrow() {
         Vector3 arrowDirection = handIndexTip.transform.right;
         if (GetHandType() == HandType.Left) {
             arrowDirection = -arrowDirection;
