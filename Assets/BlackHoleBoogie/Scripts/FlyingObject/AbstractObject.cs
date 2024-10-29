@@ -72,6 +72,10 @@ namespace Object {
                 return;
             }
 
+            if (moveSpeed == 0) {
+                return;
+            }
+
             float moveDelta = moveSpeed * Time.deltaTime;
             Vector3 forwardVector = (targetPosition - transform.position).normalized;
             transform.position += moveDelta * forwardVector;
@@ -103,11 +107,11 @@ namespace Object {
         }
 
         public void OnCollisionEnter(Collision collision) {
-            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+            if (suckedIn) {
                 return;
             }
 
-            if (suckedIn) {
+            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
                 return;
             }
 
@@ -120,6 +124,11 @@ namespace Object {
             if (colObjectParent.CompareTag("MainCamera")) {
                 float colForce = 12 * Head.GetInstance().GetVelocity() + 2;
                 OnHeadCollision(colPosition, colForce);
+                return;
+            }
+
+            if (colObject.CompareTag("Arrow")) {
+                OnArrowCollision(colPosition, 8F);
                 return;
             }
 
@@ -147,6 +156,8 @@ namespace Object {
         }
 
         public abstract void OnHeadCollision(Vector3 colPosition, float colForce);
+
+        public abstract void OnArrowCollision(Vector3 colPosition, float colForce);
 
         private void OnHandCollision(HandData handData, Vector3 colPosition) {
             float colForce = handData.GetVelocity();

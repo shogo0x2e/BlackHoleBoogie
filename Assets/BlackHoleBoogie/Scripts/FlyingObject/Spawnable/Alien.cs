@@ -22,6 +22,10 @@ namespace Object.Spawnable {
         }
 
         public new void Update() {
+            if (IsDestroyed()) {
+                return;
+            }
+
             float floatY = startPosition.y + floatAmplitude * Mathf.Sin(Time.time * floatSpeed);
             transform.position = new Vector3(startPosition.x, floatY, startPosition.z);
 
@@ -31,7 +35,7 @@ namespace Object.Spawnable {
                 return;
             }
 
-            if (Random.Range(0F, 1F) < 0.002F) {
+            if (Random.Range(0F, 1F) < 0.0026F) {
                 Shoot();
             }
 
@@ -59,6 +63,13 @@ namespace Object.Spawnable {
         }
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) { }
+
+        public override void OnArrowCollision(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
+            ScoreManager.scoreCount += 300;
+            Destroy(gameObject, 3.6F);
+            SetDestroyed(true);
+        }
 
         public override void OnSlap(Vector3 colPosition, float colForce) { }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class Arrow : MonoBehaviour {
-    private const float moveSpeed = 4F;
+    private const float moveSpeed = 4.8F;
 
     public void Update() {
         transform.Translate(moveSpeed * Time.deltaTime * Vector3.forward);

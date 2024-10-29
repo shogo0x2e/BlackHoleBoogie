@@ -18,6 +18,13 @@ namespace Object.Spawnable {
             SetDestroyed(true);
         }
 
+        public override void OnArrowCollision(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
+            ScoreManager.scoreCount -= 20;
+            Destroy(gameObject, 3.6F);
+            SetDestroyed(true);
+        }
+
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
 
