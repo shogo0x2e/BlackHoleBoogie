@@ -30,7 +30,6 @@ public class SpeechRecognitionTest : MonoBehaviour {
     private void StartRecording() {
         text.color = Color.white;
         if (text.text.ToLower().Contains("hello")) {
-            text.text = "";
             text.color = Color.magenta;
 
             HandData leftHandData = HandsManager.GetInstance().GetLeftHandData();
