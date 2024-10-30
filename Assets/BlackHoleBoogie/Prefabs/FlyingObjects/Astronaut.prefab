@@ -103,6 +103,8 @@ MonoBehaviour:
   maxRotSpeed: 0
   onDestroySound: {fileID: 3071280493169229862, guid: c24b546ab413d0146a737d649dc1e194,
     type: 3}
+  ragdollPrefab: {fileID: 6805039998248436335, guid: 5afa25cd411324221829fcf2265dca24,
+    type: 3}
   hitSound1: {fileID: 6397388181948111251, guid: 09c5c90fa0c66034b86ffc986b540ff1,
     type: 3}
   hitSound2: {fileID: 7545670483841918562, guid: e69e9344df481fd44820817edcab2077,
