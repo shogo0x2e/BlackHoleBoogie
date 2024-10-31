@@ -32,6 +32,16 @@ namespace Object.Spawnable {
             SetDestroyed(true);
         }
 
+        public override void OnArrowCollision(Vector3 colPosition, float colForce) {
+            if (IsDestroyed()) {
+                return;
+            }
+            
+            Explode(colPosition, colForce);
+            ScoreManager.scoreCount += 100;
+            SetDestroyed(true);
+        }
+
         public override void OnSlap(Vector3 colPosition, float colForce) {
             KnockBack(colPosition, colForce);
 
@@ -40,6 +50,7 @@ namespace Object.Spawnable {
             }
 
             ScoreManager.scoreCount += 60;
+            Destroy(gameObject, 6F);
             SetDestroyed(true);
         }
 

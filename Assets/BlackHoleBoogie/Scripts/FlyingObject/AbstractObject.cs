@@ -31,8 +31,8 @@ namespace Object {
         private bool suckedIn = false;
 
         private float baseScale;
-        private const float shrinkTime = 0.6F;
-        private float shrinkTimeAcc = 0;
+        protected const float shrinkTime = 0.6F;
+        protected float shrinkTimeAcc = 0;
 
         private bool isGrabbed = false;
 
@@ -58,8 +58,8 @@ namespace Object {
         public virtual void OnSpawn() { }
 
         public void Update() {
-            if (BlackHole.paused) return; // TODO: TEMPORARY FIX
-            
+            if (BlackHole.paused) return; // TODO: Remove when menu is implemented
+
             // Destroy space objects within BH
             if (mainMode && Vector3.Distance(transform.position, targetPosition) < blackHoleRadius) {
                 shrinkTimeAcc += Time.deltaTime;
@@ -69,6 +69,10 @@ namespace Object {
             }
 
             if (isGrabbed) {
+                return;
+            }
+
+            if (moveSpeed == 0) {
                 return;
             }
 
@@ -82,12 +86,14 @@ namespace Object {
                 rotDelta * rotDirection.z);
         }
 
-        private void GetSucked() {
+        public virtual void GetSucked() {
             if (suckedIn) {
                 return;
             }
 
-            AudioManager.PlayAudioSource(onDestroySound, transform);
+            if (onDestroySound != null) {
+                AudioManager.PlayAudioSource(onDestroySound, transform);
+            }
 
             ScoreManager.scoreCount -= 20;
 
@@ -103,11 +109,11 @@ namespace Object {
         }
 
         public void OnCollisionEnter(Collision collision) {
-            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
+            if (suckedIn) {
                 return;
             }
 
-            if (suckedIn) {
+            if (collision.gameObject.GetComponent<AbstractObject>() != null) {
                 return;
             }
 
@@ -117,9 +123,14 @@ namespace Object {
             Vector3 colPosition = contact.point;
 
             // Collision with the head
-            if (colObjectParent.CompareTag("MainCamera")) {
+            if (colObjectParent != null && colObjectParent.CompareTag("MainCamera")) {
                 float colForce = 12 * Head.GetInstance().GetVelocity() + 2;
                 OnHeadCollision(colPosition, colForce);
+                return;
+            }
+
+            if (colObject.gameObject.CompareTag("Arrow")) {
+                OnArrowCollision(colPosition, 8F);
                 return;
             }
 
@@ -147,6 +158,8 @@ namespace Object {
         }
 
         public abstract void OnHeadCollision(Vector3 colPosition, float colForce);
+
+        public abstract void OnArrowCollision(Vector3 colPosition, float colForce);
 
         private void OnHandCollision(HandData handData, Vector3 colPosition) {
             float colForce = handData.GetVelocity();
@@ -197,6 +210,10 @@ namespace Object {
 
         public bool IsDestroyed() {
             return destroyed;
+        }
+
+        public bool IsSuckedIn() {
+            return suckedIn;
         }
 
         public void SetIsGrabbed(bool value) {

@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shapeName: 
   _thumbFeatureConfigs:
-    _value:
-    - _mode: 0
-      _feature: 0
-      _state: 1
+    _value: []
   _indexFeatureConfigs:
     _value:
     - _mode: 0

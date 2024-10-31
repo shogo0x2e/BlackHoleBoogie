@@ -9,7 +9,7 @@ public class TimeManager : MonoBehaviour {
     public static float secondsLeft = gameDuration;
 
     public void Update() {
-        if (BlackHole.paused) return; // TODO: TEMPORARY FIX
+        if (BlackHole.paused) return; // TODO: Remove when menu is implemented
         
         secondsLeft -= Time.deltaTime;
 
