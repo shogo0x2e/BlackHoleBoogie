@@ -10,6 +10,7 @@ namespace Object.Spawnable {
         private bool soundAlternator;
 
         public override void OnHeadCollision(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
 
             if (IsDestroyed() || colForce < softestForce) {
                 return;
@@ -17,7 +18,6 @@ namespace Object.Spawnable {
 
             ScoreManager.scoreCount += 10;
             SetDestroyed(true);
-            ReplaceToRagdoll(colPosition, colForce);
         }
 
         public override void OnArrowCollision(Vector3 colPosition, float colForce) {
@@ -33,6 +33,7 @@ namespace Object.Spawnable {
         }
 
         public override void OnSlap(Vector3 colPosition, float colForce) {
+            KnockBack(colPosition, colForce);
 
             if (IsDestroyed() || colForce < softForce) {
                 return;
@@ -42,7 +43,6 @@ namespace Object.Spawnable {
             ScoreManager.scoreCount += 100;
             Destroy(gameObject, 6F);
             SetDestroyed(true);
-            ReplaceToRagdoll(colPosition, colForce);
 
             if (TutorialManager.tutorialStep == 1) {
                 TutorialManager.tutorialStringText = "";
