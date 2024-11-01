@@ -28,7 +28,8 @@ namespace Object.Spawnable {
             }
 
             // Decrease score because it hurts to collide an Asteroid with your head :)
-            ScoreManager.scoreCount -= 20;
+            // ScoreManager.scoreCount -= 20;
+            ScoreManager.scoreCount -= 0;
             SetDestroyed(true);
         }
 

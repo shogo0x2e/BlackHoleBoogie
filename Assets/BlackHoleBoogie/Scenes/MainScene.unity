@@ -2410,7 +2410,7 @@ PrefabInstance:
     - target: {fileID: -1068060814893649512, guid: 54069d0c6ab59c7489b776e65c5940a4,
         type: 3}
       propertyPath: offsetFromHead
-      value: -0.2
+      value: -0.28
       objectReference: {fileID: 0}
     - target: {fileID: 3248142575889200056, guid: 54069d0c6ab59c7489b776e65c5940a4,
         type: 3}

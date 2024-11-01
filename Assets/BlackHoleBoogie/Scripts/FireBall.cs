@@ -72,7 +72,8 @@ public class FireBall : AbstractObject {
             return;
         }
 
-        ScoreManager.scoreCount -= 30;
+        // ScoreManager.scoreCount -= 30;
+        ScoreManager.scoreCount -= 0;
         SetDestroyed(true);
     }
 

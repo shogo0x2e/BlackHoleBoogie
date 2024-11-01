@@ -26,7 +26,8 @@ namespace Object.Spawnable {
                 return;
             }
             
-            ScoreManager.scoreCount -= 20;
+            // ScoreManager.scoreCount -= 20;
+            ScoreManager.scoreCount -= 0;
             Destroy(gameObject, 3.6F);
             SetDestroyed(true);
             ReplaceToRagdoll(colPosition, colForce);

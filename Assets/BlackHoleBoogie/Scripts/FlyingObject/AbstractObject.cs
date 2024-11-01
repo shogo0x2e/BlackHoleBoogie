@@ -95,7 +95,8 @@ namespace Object {
                 AudioManager.PlayAudioSource(onDestroySound, transform);
             }
 
-            ScoreManager.scoreCount -= 20;
+            // ScoreManager.scoreCount -= 20;
+            ScoreManager.scoreCount -= 0;
 
             Destroy(gameObject, shrinkTime);
 
